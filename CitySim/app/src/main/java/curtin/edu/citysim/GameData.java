@@ -2,18 +2,14 @@ package curtin.edu.citysim;
 
 public class GameData
 {
-    private GameData instance = null;
-    private Settings settings;
-    private MapElement[][] map;
-    private int money;
-    private int gameTime;
+    private static GameData instance = null;
 
-    private GameData()
-    {
+    private Settings settings = null;
+    private MapElement[][] map = null;
+    private int money = 0;
+    private int gameTime = 0;
 
-    }
-
-    public GameData getInstance() { return (instance = (instance != null ? instance : new GameData())); }
+    public static GameData getInstance() { return (instance = (instance != null ? instance : new GameData())); }
 
     public void setSettings(Settings settings) { this.settings = settings; }
     public void setMap(MapElement[][] map) { this.map = map; }
@@ -24,4 +20,39 @@ public class GameData
     public MapElement[][] getMap() { return map; }
     public int getMoney() { return money; }
     public int getGameTime() { return gameTime; }
+
+
+    public void regenerateGame() throws GameDataException
+    {
+        if (settings == null)
+            throw new GameDataException("Settings is not set");
+
+        int width = settings.getIntegerSetting("mapWidth", 50);
+        int height = settings.getIntegerSetting("mapHeight", 10);
+
+        map = new MapElement[width][height];
+
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+                map[i][j] = new MapElement();
+
+        money = settings.getIntegerSetting("initialMoney", 1000);
+        gameTime = 0;
+    }
+
+    public String toString()
+    {
+        String out = "{\n";
+        out += "    \"settings\": " + settings.toString().replaceAll("\n", "\n    ") + ",\n";
+        out += "    \"map\": {\n";
+
+        for (MapElement[] i : map)
+            for (MapElement j : i)
+                out += j.toString().replaceAll("\n", "        \n") + ",\n";
+
+        out += "    },\n";
+        out += "    \"money\": " + Integer.toString(money) + ",\n";
+        out += "    \"gameTime\": " + Integer.toString(gameTime) + "\n}";
+        return out;
+    }
 }

@@ -24,20 +24,45 @@ public class Settings
         integerSettings.put("roadBuildingCost", 20);
     }
 
-    public void setIntegerSetting(String k, int v) { integerSettings.put(k, v); }
-    public void setDoubleSetting(String k, double v) { doubleSettings.put(k, v); }
+    public void setIntegerSetting(String k, int v)
+    {
+        integerSettings.put(k, v);
+    }
+
+    public void setDoubleSetting(String k, double v)
+    {
+        doubleSettings.put(k, v);
+    }
 
     public int getIntegerSetting(String k, int defaultValue)
     {
         return integerSettings.containsKey(k) ? integerSettings.get(k) : defaultValue;
     }
 
-    public int getIntegerSetting(String k) { return integerSettings.get(k); }
+    public int getIntegerSetting(String k)
+    {
+        return integerSettings.get(k);
+    }
 
     public double getDoubleSetting(String k, double defaultValue)
     {
         return doubleSettings.containsKey(k) ? doubleSettings.get(k) : defaultValue;
     }
 
-    public double getDoubleSetting(String k) { return doubleSettings.get(k); }
+    public double getDoubleSetting(String k)
+    {
+        return doubleSettings.get(k);
+    }
+
+    public String toString()
+    {
+        String out = "{\n";
+        for (Map.Entry<String, Integer> e : integerSettings.entrySet())
+            out += String.format("    \"%s\": \"%d\",\n", e.getKey(), e.getValue());
+
+        for (Map.Entry<String, Double> e : doubleSettings.entrySet())
+            out += String.format("    \"%s\": \"%f\",\n", e.getKey(), e.getValue());
+
+        return out.replaceAll(",\n$", "\n}");
+    }
 }
