@@ -7,8 +7,6 @@ public class StructureData
     private Commercial[] commercial;
     private Road[] roads;
 
-    public StructureData getInstance() { return (instance = (instance != null ? instance : new StructureData())); }
-
     public void setResidential(Residential[] residential) { this.residential = residential; }
     public void setCommercial(Commercial[] commercial) { this.commercial = commercial; }
     public void setRoads(Road[] roads) { this.roads = roads; }

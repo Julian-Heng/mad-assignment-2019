@@ -9,8 +9,6 @@ public class GameData
     private int money = 0;
     private int gameTime = 0;
 
-    public static GameData getInstance() { return (instance = (instance != null ? instance : new GameData())); }
-
     public void setSettings(Settings settings) { this.settings = settings; }
     public void setMap(MapElement[][] map) { this.map = map; }
     public void setMoney(int money) { this.money = money; }
@@ -21,14 +19,15 @@ public class GameData
     public int getMoney() { return money; }
     public int getGameTime() { return gameTime; }
 
-
-    public void regenerateGame() throws GameDataException
+    public GameData(Settings settings) throws GameDataException
     {
         if (settings == null)
             throw new GameDataException("Settings is not set");
 
+        setSettings(settings);
+
         int width = settings.getIntSetting("mapWidth", 50);
-        int height = settings.getIntSetting("mapHeight", 10);
+        int height = settings.getIntSetting("mapHeight", 100);
 
         map = new MapElement[width][height];
 
@@ -50,7 +49,7 @@ public class GameData
             for (MapElement j : i)
                 out += j.toString().replaceAll("\n", "\n        ") + ",\n        ";
 
-        out = out.replaceAll(",\n        $", "\n    },\n");
+        out = out.replaceAll(",\n\\s{8}$", "\n    },\n");
         out += "    \"money\": " + Integer.toString(money) + ",\n";
         out += "    \"gameTime\": " + Integer.toString(gameTime) + "\n}";
         return out;
