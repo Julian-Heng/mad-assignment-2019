@@ -6,16 +6,28 @@ public class GameData implements Serializable
 {
     private Settings settings = null;
     private MapElement[][] map = null;
+
+    private int numResidential = 0;
+    private int numCommercial = 0;
+
     private int money = 0;
     private int gameTime = 0;
 
     public void setSettings(Settings settings) { this.settings = settings; }
     public void setMap(MapElement[][] map) { this.map = map; }
+
+    public void setNumResidential(int numResidential) { this.numResidential = numResidential; }
+    public void setNumCommercial(int numCommercial) { this.numCommercial = numCommercial; }
+
     public void setMoney(int money) { this.money = money; }
     public void setGameTime(int gameTime) { this.gameTime = gameTime; }
 
     public Settings getSettings() { return settings; }
     public MapElement[][] getMap() { return map; }
+
+    public int getNumResidential() { return numResidential; }
+    public int getNumCommercial() { return numCommercial; }
+
     public int getMoney() { return money; }
     public int getGameTime() { return gameTime; }
 
@@ -38,6 +50,21 @@ public class GameData implements Serializable
         money = settings.getIntSetting("initialMoney", 1000);
         gameTime = 0;
     }
+
+    public void step()
+    {
+        int familySize = settings.getIntSetting("familySettings");
+        int shopSize = settings.getIntSetting("shopSize");
+        int salary = settings.getIntSetting("salary");
+        double taxRate = settings.getDoubleSetting("taxRate");
+        int serviceCost = settings.getIntSetting("serviceCost");
+
+        int population = familySize * numResidential;
+        double employmentRate = Math.min(1.0, numCommercial * shopSize / population);
+        money += population * (employmentRate * salary * taxRate - serviceCost);
+    }
+
+    public boolean isGameOver() { return money < 0; }
 
     public String toString()
     {

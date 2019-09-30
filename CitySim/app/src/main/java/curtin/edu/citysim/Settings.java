@@ -37,7 +37,7 @@ public class Settings implements Serializable
         return fallback;
     }
 
-    public int getIntSettings(String k)
+    public int getIntSetting(String k)
     {
         return (Integer)settings.get(k);
     }

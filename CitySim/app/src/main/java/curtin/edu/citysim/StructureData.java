@@ -2,7 +2,6 @@ package curtin.edu.citysim;
 
 public class StructureData
 {
-    private StructureData instance;
     private Residential[] residential;
     private Commercial[] commercial;
     private Road[] roads;
