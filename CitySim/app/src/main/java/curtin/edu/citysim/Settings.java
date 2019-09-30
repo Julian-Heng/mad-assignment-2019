@@ -1,10 +1,11 @@
 package curtin.edu.citysim;
 
+import java.io.Serializable;
 import java.security.KeyException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Settings
+public class Settings implements Serializable
 {
     private Map<String, Object> settings = new HashMap<>();
 
@@ -36,6 +37,11 @@ public class Settings
         return fallback;
     }
 
+    public int getIntSettings(String k)
+    {
+        return (Integer)settings.get(k);
+    }
+
     public double getDoubleSetting(String k, double fallback)
     {
         if (settings.containsKey(k) && settings.get(k) instanceof Double && settings.get(k) != null)
@@ -44,6 +50,11 @@ public class Settings
         }
 
         return fallback;
+    }
+
+    public double getDoubleSetting(String k)
+    {
+        return (Double)settings.get(k);
     }
 
     public String toString()

@@ -1,9 +1,9 @@
 package curtin.edu.citysim;
 
-public class GameData
-{
-    private static GameData instance = null;
+import java.io.Serializable;
 
+public class GameData implements Serializable
+{
     private Settings settings = null;
     private MapElement[][] map = null;
     private int money = 0;
