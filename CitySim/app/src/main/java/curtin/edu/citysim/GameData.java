@@ -27,8 +27,8 @@ public class GameData
         if (settings == null)
             throw new GameDataException("Settings is not set");
 
-        int width = settings.getIntegerSetting("mapWidth", 50);
-        int height = settings.getIntegerSetting("mapHeight", 10);
+        int width = settings.getIntSetting("mapWidth", 50);
+        int height = settings.getIntSetting("mapHeight", 10);
 
         map = new MapElement[width][height];
 
@@ -36,7 +36,7 @@ public class GameData
             for (int j = 0; j < height; j++)
                 map[i][j] = new MapElement();
 
-        money = settings.getIntegerSetting("initialMoney", 1000);
+        money = settings.getIntSetting("initialMoney", 1000);
         gameTime = 0;
     }
 
