@@ -44,13 +44,13 @@ public class GameData
     {
         String out = "{\n";
         out += "    \"settings\": " + settings.toString().replaceAll("\n", "\n    ") + ",\n";
-        out += "    \"map\": {\n";
+        out += "    \"map\": {\n        ";
 
         for (MapElement[] i : map)
             for (MapElement j : i)
-                out += j.toString().replaceAll("\n", "        \n") + ",\n";
+                out += j.toString().replaceAll("\n", "\n        ") + ",\n        ";
 
-        out += "    },\n";
+        out = out.replaceAll(",\n        $", "\n    },\n");
         out += "    \"money\": " + Integer.toString(money) + ",\n";
         out += "    \"gameTime\": " + Integer.toString(gameTime) + "\n}";
         return out;

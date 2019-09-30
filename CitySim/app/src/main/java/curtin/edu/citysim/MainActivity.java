@@ -20,7 +20,9 @@ public class MainActivity extends AppCompatActivity
         try
         {
             game.regenerateGame();
-            Log.d("GAMEDATA", "GameData toString():\n" + game.toString());
+            String[] log = game.toString().split("\n");
+            for (String i : log)
+                Log.d("GAMEDATA", "GameData: " + i);
         }
         catch (GameDataException e)
         {
