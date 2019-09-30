@@ -9,10 +9,6 @@ import android.widget.EditText;
 
 public class SettingsActivity extends AppCompatActivity
 {
-    EditText txtEditWidth;
-    EditText txtEditHeight;
-    EditText txtEditMoney;
-
     Settings settings;
 
     @Override
@@ -21,25 +17,35 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        txtEditWidth = (EditText)findViewById(R.id.txtEditWidth);
-        txtEditHeight = (EditText)findViewById(R.id.txtEditHeight);
-        txtEditMoney = (EditText)findViewById(R.id.txtEditMoney);
-
         settings = (Settings)getIntent().getSerializableExtra("settings");
 
-        txtEditWidth.setText(Integer.toString(settings.getIntSetting("mapWidth", 50)));
-        txtEditHeight.setText(Integer.toString(settings.getIntSetting("mapHeight", 10)));
-        txtEditMoney.setText(Integer.toString(settings.getIntSetting("initialMoney", 1000)));
+        ((EditText)findViewById(R.id.txtEditWidth)).setText(Integer.toString(settings.getIntSetting("mapWidth", 50)));
+        ((EditText)findViewById(R.id.txtEditHeight)).setText(Integer.toString(settings.getIntSetting("mapHeight", 10)));
+        ((EditText)findViewById(R.id.txtEditMoney)).setText(Integer.toString(settings.getIntSetting("initialMoney", 1000)));
     }
 
     @Override
     public void onBackPressed()
     {
-        settings.setIntSetting("mapWidth", Integer.parseInt(txtEditWidth.getText().toString()));
-        settings.setIntSetting("mapHeight", Integer.parseInt(txtEditHeight.getText().toString()));
-        settings.setIntSetting("initialMoney", Integer.parseInt(txtEditMoney.getText().toString()));
+        try
+        {
+            settings.setIntSetting("mapWidth", Integer.parseInt(((EditText) findViewById(R.id.txtEditWidth)).getText().toString()));
+        }
+        catch (NumberFormatException e) {}
 
-        Intent intent = new Intent();
+        try
+        {
+            settings.setIntSetting("mapHeight", Integer.parseInt(((EditText) findViewById(R.id.txtEditHeight)).getText().toString()));
+        }
+        catch (NumberFormatException e) {}
+
+        try
+        {
+            settings.setIntSetting("initialMoney", Integer.parseInt(((EditText) findViewById(R.id.txtEditMoney)).getText().toString()));
+        }
+        catch (NumberFormatException e) {}
+
+    Intent intent = new Intent();
         intent.putExtra(MainActivity.SETTINGS, settings);
         setResult(RESULT_OK, intent);
         super.onBackPressed();

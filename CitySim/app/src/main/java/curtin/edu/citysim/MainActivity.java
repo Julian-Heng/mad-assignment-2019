@@ -33,8 +33,7 @@ public class MainActivity extends AppCompatActivity
         {
             try
             {
-                game = new GameData(settings == null ? new Settings() : settings);
-                settings = game.getSettings();
+                game = new GameData((settings = (settings == null ? new Settings() : settings)));
             }
             catch (GameDataException e) {}
         }
@@ -82,5 +81,9 @@ public class MainActivity extends AppCompatActivity
                 settings = (Settings)data.getSerializableExtra(SETTINGS);
                 break;
         }
+
+        Log.d("SETTINGS", String.format("%s = %d", "mapWidth", settings.getIntSetting("mapWidth")));
+        Log.d("SETTINGS", String.format("%s = %d", "mapHeight", settings.getIntSetting("mapHeight")));
+        Log.d("SETTINGS", String.format("%s = %d", "initialMoney", settings.getIntSetting("initialMoney")));
     }
 }

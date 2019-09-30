@@ -29,10 +29,8 @@ public class Settings implements Serializable
 
     public int getIntSetting(String k, int fallback)
     {
-        if (settings.containsKey(k) && settings.get(k) instanceof Integer && settings.get(k) != null)
-        {
+        if (settings.containsKey(k) && settings.get(k) != null && settings.get(k) instanceof Integer)
             return (Integer)settings.get(k);
-        }
 
         return fallback;
     }
@@ -44,10 +42,8 @@ public class Settings implements Serializable
 
     public double getDoubleSetting(String k, double fallback)
     {
-        if (settings.containsKey(k) && settings.get(k) instanceof Double && settings.get(k) != null)
-        {
+        if (settings.containsKey(k) && settings.get(k) != null && settings.get(k) instanceof Double)
             return (Double)settings.get(k);
-        }
 
         return fallback;
     }
