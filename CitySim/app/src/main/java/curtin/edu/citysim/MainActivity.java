@@ -13,11 +13,12 @@ import curtin.edu.citysim.Activities.SettingsActivity;
 import curtin.edu.citysim.Core.Controller.GameDataSaveManager;
 import curtin.edu.citysim.Core.Model.GameData;
 import curtin.edu.citysim.Core.Model.Settings;
+import curtin.edu.citysim.Core.Model.StructureData;
 
 public class MainActivity extends AppCompatActivity
 {
     public static final String GAME = "game";
-    public static final String SETTINGS = "settings";
+    public static final String STRUCT = "structures";
 
     private static final int REQUEST_SETTINGS = 1;
     private static final int REQUEST_MAP = 2;
@@ -25,9 +26,10 @@ public class MainActivity extends AppCompatActivity
     private Button btnMap;
     private Button btnSettings;
 
-    private GameDataSaveManager saveManager;
+    private GameDataSaveManager saveManager = null;
+    private StructureData structures = null;
+
     private GameData game = null;
-    private Settings settings = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,15 +44,19 @@ public class MainActivity extends AppCompatActivity
         {
             saveManager = new GameDataSaveManager(this);
             game = saveManager.load();
-            settings = game.getSettings();
         }
+
+        structures = new StructureData();
 
         btnMap.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                startActivity(new Intent(MainActivity.this, MapActivity.class));
+                Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                intent.putExtra(GAME, game);
+                intent.putExtra(STRUCT, structures);
+                startActivityForResult(intent, REQUEST_MAP);
             }
         });
 
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                intent.putExtra(SETTINGS, settings);
+                intent.putExtra(GAME, game);
                 startActivityForResult(intent, REQUEST_SETTINGS);
             }
         });
@@ -76,12 +82,7 @@ public class MainActivity extends AppCompatActivity
 
         switch (requestCode)
         {
-            case REQUEST_SETTINGS:
-                settings = (Settings)data.getSerializableExtra(SETTINGS);
-                game.setSettings(settings);
-                break;
-
-            case REQUEST_MAP:
+            case REQUEST_SETTINGS: case REQUEST_MAP:
                 game = (GameData)data.getSerializableExtra(GAME);
                 break;
         }

@@ -2,6 +2,7 @@ package curtin.edu.citysim.Core.Model;
 
 import android.provider.ContactsContract;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +10,7 @@ import java.util.List;
 
 import curtin.edu.citysim.R;
 
-public class StructureData
+public class StructureData implements Serializable
 {
     private List<Residential> residential = Arrays.asList(new Residential[] {
         new Residential(R.drawable.ic_building1),

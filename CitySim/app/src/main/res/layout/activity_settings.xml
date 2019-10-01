@@ -6,6 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".Activities.SettingsActivity">
 
+    <Button
+        android:id="@+id/btnResetSettings"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Reset Settings"
+        app:layout_constraintEnd_toStartOf="@+id/btnResetMap"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtLabelMoney" />
+
+    <Button
+        android:id="@+id/btnResetMap"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:text="Reset Map"
+        app:layout_constraintBottom_toBottomOf="@+id/btnResetSettings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnResetSettings"
+        app:layout_constraintTop_toTopOf="@+id/btnResetSettings" />
+
+    <EditText
+        android:id="@+id/txtEditWidth"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="32dp"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/txtLabelWidth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtLabelWidth"
+        app:layout_constraintTop_toTopOf="@+id/txtLabelWidth"
+        app:layout_constraintVertical_bias="0.75" />
+
     <EditText
         android:id="@+id/txtEditMoney"
         android:layout_width="0dp"
@@ -18,18 +53,16 @@
         app:layout_constraintBottom_toBottomOf="@+id/txtLabelMoney"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtLabelMoney"
-        app:layout_constraintVertical_bias="0.75"
-        app:layout_constraintTop_toTopOf="@+id/txtLabelMoney" />
+        app:layout_constraintTop_toTopOf="@+id/txtLabelMoney"
+        app:layout_constraintVertical_bias="0.75" />
 
     <EditText
         android:id="@+id/txtEditHeight"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:inputType="number"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginStart="39dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="@+id/txtLabelHeight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -37,20 +70,15 @@
         app:layout_constraintTop_toTopOf="@+id/txtLabelHeight"
         app:layout_constraintVertical_bias="0.75" />
 
-    <EditText
-        android:id="@+id/txtEditWidth"
-        android:layout_width="0dp"
-        android:inputType="number"
-        android:layout_height="48dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginLeft="46dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/txtLabelWidth"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txtLabelWidth"
-        app:layout_constraintTop_toTopOf="@+id/txtLabelWidth"
-        app:layout_constraintVertical_bias="0.75" />
+    <TextView
+        android:id="@+id/txtLabelMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Starting Funds:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txtLabelHeight"
+        app:layout_constraintTop_toBottomOf="@+id/txtLabelHeight" />
 
     <TextView
         android:id="@+id/txtLabelHeight"
@@ -73,14 +101,4 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtLabelMoney"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Starting Funds:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/txtLabelHeight"
-        app:layout_constraintTop_toBottomOf="@+id/txtLabelHeight" />
 </androidx.constraintlayout.widget.ConstraintLayout>
