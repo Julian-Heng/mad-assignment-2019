@@ -2,7 +2,9 @@ package curtin.edu.citysim;
 
 import android.graphics.Bitmap;
 
-public class MapElement
+import java.io.Serializable;
+
+public class MapElement implements Serializable
 {
     private Structure struct;
     private Bitmap img;

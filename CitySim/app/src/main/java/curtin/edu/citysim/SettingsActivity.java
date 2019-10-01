@@ -11,6 +11,10 @@ public class SettingsActivity extends AppCompatActivity
 {
     Settings settings;
 
+    EditText txtEditWidth;
+    EditText txtEditHeight;
+    EditText txtEditMoney;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -19,9 +23,21 @@ public class SettingsActivity extends AppCompatActivity
 
         settings = (Settings)getIntent().getSerializableExtra("settings");
 
-        ((EditText)findViewById(R.id.txtEditWidth)).setText(Integer.toString(settings.getIntSetting("mapWidth", 50)));
-        ((EditText)findViewById(R.id.txtEditHeight)).setText(Integer.toString(settings.getIntSetting("mapHeight", 10)));
-        ((EditText)findViewById(R.id.txtEditMoney)).setText(Integer.toString(settings.getIntSetting("initialMoney", 1000)));
+        txtEditWidth = (EditText)findViewById(R.id.txtEditWidth);
+        txtEditHeight = (EditText)findViewById(R.id.txtEditHeight);
+        txtEditMoney = (EditText)findViewById(R.id.txtEditMoney);
+
+        txtEditWidth.setText(
+            Integer.toString(settings.getIntSetting("mapWidth", 50))
+        );
+
+        txtEditHeight.setText(
+            Integer.toString(settings.getIntSetting("mapHeight", 10))
+        );
+
+        txtEditMoney.setText(
+            Integer.toString(settings.getIntSetting("initialMoney", 1000))
+        );
     }
 
     @Override
@@ -29,19 +45,28 @@ public class SettingsActivity extends AppCompatActivity
     {
         try
         {
-            settings.setIntSetting("mapWidth", Integer.parseInt(((EditText) findViewById(R.id.txtEditWidth)).getText().toString()));
+            settings.setIntSetting(
+                "mapWidth",
+                Integer.parseInt(txtEditWidth.getText().toString())
+            );
         }
         catch (NumberFormatException e) {}
 
         try
         {
-            settings.setIntSetting("mapHeight", Integer.parseInt(((EditText) findViewById(R.id.txtEditHeight)).getText().toString()));
+            settings.setIntSetting(
+                "mapHeight",
+                Integer.parseInt(txtEditHeight.getText().toString())
+            );
         }
         catch (NumberFormatException e) {}
 
         try
         {
-            settings.setIntSetting("initialMoney", Integer.parseInt(((EditText) findViewById(R.id.txtEditMoney)).getText().toString()));
+            settings.setIntSetting(
+                "initialMoney",
+                Integer.parseInt(txtEditMoney.getText().toString())
+            );
         }
         catch (NumberFormatException e) {}
 

@@ -31,11 +31,14 @@ public class MainActivity extends AppCompatActivity
 
         if (game == null)
         {
-            try
-            {
-                game = new GameData((settings = (settings == null ? new Settings() : settings)));
-            }
-            catch (GameDataException e) {}
+            //try
+            //{
+                //game = new GameData((settings = (settings == null ? new Settings() : settings)));
+                game = new GameData();
+                game.load(this);
+                settings = game.getSettings();
+            //}
+            //catch (GameDataException e) {}
         }
 
         btnMap = (Button)findViewById(R.id.btnMap);
@@ -74,16 +77,14 @@ public class MainActivity extends AppCompatActivity
         {
             case REQUEST_SETTINGS:
                 settings = (Settings)data.getSerializableExtra(SETTINGS);
+                game.setSettings(settings);
                 break;
 
             case REQUEST_MAP:
                 game = (GameData)data.getSerializableExtra(GAME);
-                settings = (Settings)data.getSerializableExtra(SETTINGS);
                 break;
         }
 
-        Log.d("SETTINGS", String.format("%s = %d", "mapWidth", settings.getIntSetting("mapWidth")));
-        Log.d("SETTINGS", String.format("%s = %d", "mapHeight", settings.getIntSetting("mapHeight")));
-        Log.d("SETTINGS", String.format("%s = %d", "initialMoney", settings.getIntSetting("initialMoney")));
+        game.save();
     }
 }
