@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import curtin.edu.citysim.Activities.MapActivity;
+import curtin.edu.citysim.Activities.SettingsActivity;
+import curtin.edu.citysim.Core.Controller.GameDataSaveManager;
+import curtin.edu.citysim.Core.Model.GameData;
+import curtin.edu.citysim.Core.Model.Settings;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -20,6 +25,7 @@ public class MainActivity extends AppCompatActivity
     private Button btnMap;
     private Button btnSettings;
 
+    private GameDataSaveManager saveManager;
     private GameData game = null;
     private Settings settings = null;
 
@@ -29,20 +35,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (game == null)
-        {
-            //try
-            //{
-                //game = new GameData((settings = (settings == null ? new Settings() : settings)));
-                game = new GameData();
-                game.load(this);
-                settings = game.getSettings();
-            //}
-            //catch (GameDataException e) {}
-        }
-
         btnMap = (Button)findViewById(R.id.btnMap);
         btnSettings = (Button)findViewById(R.id.btnSettings);
+
+        if (game == null)
+        {
+            saveManager = new GameDataSaveManager(this);
+            game = saveManager.load();
+            settings = game.getSettings();
+        }
 
         btnMap.setOnClickListener(new View.OnClickListener()
         {
@@ -85,6 +86,6 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        game.save();
+        saveManager.save(game);
     }
 }

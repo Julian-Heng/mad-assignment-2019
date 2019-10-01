@@ -1,4 +1,4 @@
-package curtin.edu.citysim;
+package curtin.edu.citysim.Core.Model;
 
 import android.graphics.Bitmap;
 

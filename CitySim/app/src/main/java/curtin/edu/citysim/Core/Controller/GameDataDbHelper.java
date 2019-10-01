@@ -1,11 +1,11 @@
-package curtin.edu.citysim;
+package curtin.edu.citysim.Core.Controller;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import curtin.edu.citysim.GameDataSchema.GameDataTable;
+import curtin.edu.citysim.Core.Model.GameDataSchema.GameDataTable;
 
 public class GameDataDbHelper extends SQLiteOpenHelper
 {

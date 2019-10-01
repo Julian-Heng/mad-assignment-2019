@@ -1,4 +1,4 @@
-package curtin.edu.citysim;
+package curtin.edu.citysim.Core.Model;
 
 public class Residential extends Structure
 {

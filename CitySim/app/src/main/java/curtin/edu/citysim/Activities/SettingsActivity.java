@@ -1,11 +1,14 @@
-package curtin.edu.citysim;
+package curtin.edu.citysim.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
+
+import curtin.edu.citysim.Core.Model.Settings;
+import curtin.edu.citysim.MainActivity;
+import curtin.edu.citysim.R;
 
 public class SettingsActivity extends AppCompatActivity
 {

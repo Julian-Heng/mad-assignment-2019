@@ -1,4 +1,4 @@
-package curtin.edu.citysim;
+package curtin.edu.citysim.Core.Exception;
 
 public class GameDataException extends Exception
 {

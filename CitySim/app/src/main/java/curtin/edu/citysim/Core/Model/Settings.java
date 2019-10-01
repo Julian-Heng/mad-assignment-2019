@@ -1,7 +1,6 @@
-package curtin.edu.citysim;
+package curtin.edu.citysim.Core.Model;
 
 import java.io.Serializable;
-import java.security.KeyException;
 import java.util.HashMap;
 import java.util.Map;
 
