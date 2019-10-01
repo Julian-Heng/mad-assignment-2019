@@ -25,7 +25,7 @@ public class Settings implements Serializable
     }
 
     public void setIntSetting(String k, int v) { settings.put(k, v); }
-    public void setDoubleSetting(String k, int v) { settings.put(k, v); }
+    public void setDoubleSetting(String k, double v) { settings.put(k, v); }
 
     public int getIntSetting(String k, int fallback)
     {

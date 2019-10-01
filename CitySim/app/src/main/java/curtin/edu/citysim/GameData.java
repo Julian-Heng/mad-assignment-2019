@@ -136,6 +136,18 @@ public class GameData implements Serializable
 
     public void save()
     {
+        int count = new GameDataCursor(
+            db.query(
+                GameDataTable.NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            )
+        ).getCount();
+
         try
         {
             Log.d("GAMEDATA", "Saving to db: ");
@@ -154,9 +166,15 @@ public class GameData implements Serializable
             cv.put(GameDataTable.Cols.MONEY, money);
             cv.put(GameDataTable.Cols.GAME_TIME, gameTime);
 
-            String[] where = {String.valueOf(getID())};
-
-            db.update(GameDataTable.NAME, cv, String.format("%s = ?", GameDataTable.Cols.ID), where);
+            if (count > 0)
+            {
+                String[] where = {String.valueOf(getID())};
+                db.update(GameDataTable.NAME, cv, String.format("%s = ?", GameDataTable.Cols.ID), where);
+            }
+            else
+            {
+                db.insert(GameDataTable.NAME, null, cv);
+            }
         }
         catch (IOException e)
         {
