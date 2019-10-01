@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.util.Log;
 
-import java.io.IOException;
-
 public class GameDataCursor extends CursorWrapper
 {
     public GameDataCursor(Cursor cursor) { super(cursor); }
@@ -17,8 +15,8 @@ public class GameDataCursor extends CursorWrapper
         try
         {
             String ID = getString(getColumnIndex(GameDataTable.Cols.ID));
-            Settings settings = (Settings)Utils.bytesToObj(getBlob(getColumnIndex(GameDataTable.Cols.SETTINGS)));
-            MapElement[][] map = (MapElement[][])Utils.bytesToObj(getBlob(getColumnIndex(GameDataTable.Cols.MAP)));
+            Settings settings = (Settings) ByteUtilities.convertBytesToObject(getBlob(getColumnIndex(GameDataTable.Cols.SETTINGS)));
+            MapElement[][] map = (MapElement[][]) ByteUtilities.convertBytesToObject(getBlob(getColumnIndex(GameDataTable.Cols.MAP)));
             int numResidential = getInt(getColumnIndex(GameDataTable.Cols.NUM_RESIDENTIAL));
             int numCommercial = getInt(getColumnIndex(GameDataTable.Cols.NUM_COMMERCIAL));
             int money = getInt(getColumnIndex(GameDataTable.Cols.MONEY));

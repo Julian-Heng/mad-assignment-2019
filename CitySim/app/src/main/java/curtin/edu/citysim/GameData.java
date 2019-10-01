@@ -7,13 +7,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.UUID;
 
 public class GameData implements Serializable
 {
@@ -59,8 +54,8 @@ public class GameData implements Serializable
             try
             {
                 cv.put(GameDataTable.Cols.ID, getID());
-                cv.put(GameDataTable.Cols.SETTINGS, Utils.objToBytes(getSettings()));
-                cv.put(GameDataTable.Cols.MAP, Utils.objToBytes(getMap()));
+                cv.put(GameDataTable.Cols.SETTINGS, ByteUtilities.convertObjToBytes(getSettings()));
+                cv.put(GameDataTable.Cols.MAP, ByteUtilities.convertObjToBytes(getMap()));
                 cv.put(GameDataTable.Cols.NUM_RESIDENTIAL, getNumResidential());
                 cv.put(GameDataTable.Cols.NUM_COMMERCIAL, getNumCommercial());
                 cv.put(GameDataTable.Cols.MONEY, getMoney());
@@ -159,8 +154,8 @@ public class GameData implements Serializable
             ContentValues cv = new ContentValues();
 
             cv.put(GameDataTable.Cols.ID, UUID);
-            cv.put(GameDataTable.Cols.SETTINGS, Utils.objToBytes(settings));
-            cv.put(GameDataTable.Cols.MAP, Utils.objToBytes(map));
+            cv.put(GameDataTable.Cols.SETTINGS, ByteUtilities.convertObjToBytes(settings));
+            cv.put(GameDataTable.Cols.MAP, ByteUtilities.convertObjToBytes(map));
             cv.put(GameDataTable.Cols.NUM_RESIDENTIAL, numResidential);
             cv.put(GameDataTable.Cols.NUM_COMMERCIAL, numCommercial);
             cv.put(GameDataTable.Cols.MONEY, money);

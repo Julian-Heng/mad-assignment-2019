@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class Utils
+public class ByteUtilities
 {
-    public static byte[] objToBytes(Object obj) throws IOException
+    public static byte[] convertObjToBytes(Object obj) throws IOException
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(out);
@@ -16,7 +16,7 @@ public class Utils
         return out.toByteArray();
     }
 
-    public static Object bytesToObj(byte[] data) throws IOException, ClassNotFoundException
+    public static Object convertBytesToObject(byte[] data) throws IOException, ClassNotFoundException
     {
         ByteArrayInputStream in = new ByteArrayInputStream(data);
         ObjectInputStream is = new ObjectInputStream(in);
