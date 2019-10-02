@@ -8,11 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import curtin.edu.citysim.Activities.MapActivity;
-import curtin.edu.citysim.Activities.SettingsActivity;
+import curtin.edu.citysim.UI.Activity.MapActivity;
+import curtin.edu.citysim.UI.Activity.SettingsActivity;
 import curtin.edu.citysim.Core.Controller.GameDataSaveManager;
 import curtin.edu.citysim.Core.Model.GameData;
-import curtin.edu.citysim.Core.Model.Settings;
 import curtin.edu.citysim.Core.Model.StructureData;
 
 public class MainActivity extends AppCompatActivity

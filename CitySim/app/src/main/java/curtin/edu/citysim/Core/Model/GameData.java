@@ -17,6 +17,9 @@ public class GameData implements Serializable
     private int numCommercial = 0;
 
     private int money = 0;
+    private int salary = 0;
+    int population = 0;
+    double employmentRate = 0.0;
     private int gameTime = 0;
 
     public GameData() {}
@@ -53,6 +56,8 @@ public class GameData implements Serializable
     public void setNumCommercial(int numCommercial) { this.numCommercial = numCommercial; }
 
     public void setMoney(int money) { this.money = money; }
+    public void setPopulation(int population) { this.population = population; }
+    public void setEmploymentRate(double employmentRate) { this.employmentRate = employmentRate; }
     public void setGameTime(int gameTime) { this.gameTime = gameTime; }
 
     public String getID() { return UUID; }
@@ -63,19 +68,24 @@ public class GameData implements Serializable
     public int getNumCommercial() { return numCommercial; }
 
     public int getMoney() { return money; }
+    public int getSalary() { return salary; }
+    public int getPopulation() { return population; }
+    public double getEmploymentRate() { return employmentRate; }
     public int getGameTime() { return gameTime; }
 
     public void step()
     {
         int familySize = settings.getIntSetting("familySettings");
         int shopSize = settings.getIntSetting("shopSize");
-        int salary = settings.getIntSetting("salary");
+        int individualSalary = settings.getIntSetting("salary");
         double taxRate = settings.getDoubleSetting("taxRate");
         int serviceCost = settings.getIntSetting("serviceCost");
 
-        int population = familySize * numResidential;
-        double employmentRate = Math.min(1.0, numCommercial * shopSize / population);
-        money += population * (employmentRate * salary * taxRate - serviceCost);
+        population = familySize * numResidential;
+        employmentRate = Math.min(1.0, numCommercial * shopSize / population);
+
+        salary = (int)(population * (employmentRate * individualSalary * taxRate - serviceCost));
+        money += salary;
     }
 
     public boolean isGameOver() { return money < 0; }
@@ -92,6 +102,9 @@ public class GameData implements Serializable
 
         out = out.replaceAll(",\n\\s{8}$", "\n    },\n");
         out += "    \"money\": " + Integer.toString(money) + ",\n";
+        out += "    \"salary\": " + Integer.toString(salary) + ",\n";
+        out += "    \"population\": " + Integer.toString(population) + ",\n";
+        out += "    \"employmentRate\": " + Double.toString(employmentRate) + ",\n";
         out += "    \"gameTime\": " + Integer.toString(gameTime) + "\n}";
         return out;
     }

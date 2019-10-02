@@ -1,4 +1,4 @@
-package curtin.edu.citysim.Activities;
+package curtin.edu.citysim.UI.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

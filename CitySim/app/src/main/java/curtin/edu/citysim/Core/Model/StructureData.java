@@ -44,6 +44,10 @@ public class StructureData implements Serializable
         new Road(R.drawable.ic_road_w)
     });
 
+    public List<Residential> getAllResidentials() { return residential; }
+    public List<Commercial> getAllCommercials() { return commercial; }
+    public List<Road> getAllRoads() { return road; }
+
     public Residential getResidential(int i) { return residential.get(i); }
     public Commercial getCommercial(int i) { return commercial.get(i); }
     public Road getRoad(int i) { return road.get(i); }
