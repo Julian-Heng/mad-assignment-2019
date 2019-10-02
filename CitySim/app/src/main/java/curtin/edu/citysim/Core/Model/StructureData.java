@@ -47,4 +47,15 @@ public class StructureData implements Serializable
     public Residential getResidential(int i) { return residential.get(i); }
     public Commercial getCommercial(int i) { return commercial.get(i); }
     public Road getRoad(int i) { return road.get(i); }
+
+    public int getSize() { return residential.size() + commercial.size() + road.size(); }
+
+    public Structure get(int i)
+    {
+        List<Structure> tmpList = new ArrayList<>();
+        tmpList.addAll(residential);
+        tmpList.addAll(commercial);
+        tmpList.addAll(road);
+        return tmpList.get(i);
+    }
 }
