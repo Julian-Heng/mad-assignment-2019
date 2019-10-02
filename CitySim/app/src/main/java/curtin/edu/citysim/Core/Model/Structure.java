@@ -1,6 +1,8 @@
 package curtin.edu.citysim.Core.Model;
 
-public abstract class Structure
+import java.io.Serializable;
+
+public abstract class Structure implements Serializable
 {
     private int imageID;
 
