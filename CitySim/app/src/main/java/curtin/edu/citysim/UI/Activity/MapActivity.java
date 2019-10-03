@@ -17,6 +17,7 @@ import curtin.edu.citysim.UI.Fragment.StatusFragment;
 public class MapActivity extends AppCompatActivity
 {
     private GameData game;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

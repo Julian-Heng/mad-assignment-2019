@@ -26,6 +26,7 @@ public class SelectorFragment extends Fragment
     private List<? extends Structure> structures;
     private String label;
     private GameData game;
+    private SelectorAdapter adapter;
 
     private class StructureDataHolder extends RecyclerView.ViewHolder
     {
@@ -37,6 +38,17 @@ public class SelectorFragment extends Fragment
             super(inflater.inflate(R.layout.list_selection, parent, false));
 
             image = (ImageView)itemView.findViewById(R.id.selector_image);
+
+            image.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Log.d("SELECTOR", "Selected: " + data.toString());
+                    game.setSelectedStruct(data);
+                    adapter.notifyItemChanged(getAdapterPosition());
+                }
+            });
         }
 
         public void bind(Structure data)
@@ -84,7 +96,7 @@ public class SelectorFragment extends Fragment
         TextView txtLabel = view.findViewById(R.id.selector_label);
         txtLabel.setText(label);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        rv.setAdapter(new SelectorAdapter(structures));
+        rv.setAdapter((adapter = new SelectorAdapter(structures)));
 
         return view;
     }

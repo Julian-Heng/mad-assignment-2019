@@ -112,6 +112,8 @@ public class SettingsActivity extends AppCompatActivity
         }
         catch (NumberFormatException e) {}
 
+        game.setSettings(settings);
+
         Intent intent = new Intent();
         intent.putExtra(MainActivity.GAME, game);
         setResult(RESULT_OK, intent);

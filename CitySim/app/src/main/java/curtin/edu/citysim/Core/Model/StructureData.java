@@ -12,21 +12,21 @@ import curtin.edu.citysim.R;
 
 public class StructureData implements Serializable
 {
-    private List<Residential> residential = Arrays.asList(
+    private final List<Residential> residential = Arrays.asList(
         new Residential(R.drawable.ic_building1),
         new Residential(R.drawable.ic_building2),
         new Residential(R.drawable.ic_building3),
         new Residential(R.drawable.ic_building4)
     );
 
-    private List<Commercial> commercial = Arrays.asList(
+    private final List<Commercial> commercial = Arrays.asList(
         new Commercial(R.drawable.ic_building5),
         new Commercial(R.drawable.ic_building6),
         new Commercial(R.drawable.ic_building7),
         new Commercial(R.drawable.ic_building8)
     );
 
-    private List<Road> road = Arrays.asList(
+    private final List<Road> road = Arrays.asList(
         new Road(R.drawable.ic_road_e),
         new Road(R.drawable.ic_road_ew),
         new Road(R.drawable.ic_road_n),
@@ -47,8 +47,4 @@ public class StructureData implements Serializable
     public List<Residential> getAllResidentials() { return residential; }
     public List<Commercial> getAllCommercials() { return commercial; }
     public List<Road> getAllRoads() { return road; }
-
-    public Residential getResidential(int i) { return residential.get(i); }
-    public Commercial getCommercial(int i) { return commercial.get(i); }
-    public Road getRoad(int i) { return road.get(i); }
 }

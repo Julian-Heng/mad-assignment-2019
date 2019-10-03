@@ -2,6 +2,8 @@ package curtin.edu.citysim.UI.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import androidx.fragment.app.Fragment;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import curtin.edu.citysim.Core.Model.GameData;
 import curtin.edu.citysim.Core.Model.Settings;
@@ -24,11 +28,38 @@ import curtin.edu.citysim.UI.Activity.DetailsActivity;
 public class StatusFragment extends Fragment
 {
     private GameData game;
+    private Handler handler;
+    private Timer statusUpdater;
 
     private Map<String,TextView> txts = new HashMap<>();
     private Button btnDetails;
+    private Button btnDemolish;
 
-    public StatusFragment(GameData game) { this.game = game; }
+    public StatusFragment(GameData game)
+    {
+        this.game = game;
+
+        handler = new Handler()
+        {
+            public void handleMessage(Message m)
+            {
+                if (m.what == 101)
+                    updateStatus();
+            }
+        };
+
+        statusUpdater = new Timer();
+        statusUpdater.scheduleAtFixedRate(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                Message m = new Message();
+                m.what = 101;
+                handler.sendMessage(m);
+            }
+        }, 500, 500);
+    }
 
     @Nullable
     @Override
@@ -43,6 +74,8 @@ public class StatusFragment extends Fragment
         txts.put("txtEmployment", (TextView)view.findViewById(R.id.txtEmployment));
 
         btnDetails = (Button)view.findViewById(R.id.btnDetails);
+        btnDemolish = (Button)view.findViewById(R.id.btnDemolish);
+
         btnDetails.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -52,6 +85,11 @@ public class StatusFragment extends Fragment
                 intent.putExtra(MainActivity.GAME, game);
                 startActivity(intent);
             }
+        });
+
+        btnDemolish.setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v) { game.toggleDemolish(); }
         });
 
         updateStatus();
@@ -66,5 +104,6 @@ public class StatusFragment extends Fragment
         txts.get("txtSalary").setText("Salary: " + game.getSalary());
         txts.get("txtPopulation").setText("Population: " + game.getPopulation());
         txts.get("txtEmployment").setText("Employment rate: " + game.getEmploymentRate());
+        btnDemolish.setText(game.getDemolish() ? "Quit" : "Demolish");
     }
 }

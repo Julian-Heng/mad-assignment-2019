@@ -29,7 +29,7 @@ public class GameDataSaveManager
         private static final int VERSION = 1;
         private static final String DATABASE_NAME = "citysim_save.db";
         private static final String SQL_CREATE =
-            "CREATE TABLE %s (%s TEXT, %s BLOB, %s BLOB, %s INTEGER, %s INTEGER, %s INTEGER, %s INTEGER, %s REAL, %s INTEGER)";
+            "CREATE TABLE %s (%s TEXT, %s BLOB, %s BLOB, %s INTEGER, %s INTEGER, %s REAL, %s INTEGER)";
 
         public GameDataDbHelper(Context context)
         {
@@ -44,8 +44,6 @@ public class GameDataSaveManager
                 GameDataTable.Cols.ID,
                 GameDataTable.Cols.SETTINGS,
                 GameDataTable.Cols.MAP,
-                GameDataTable.Cols.NUM_RESIDENTIAL,
-                GameDataTable.Cols.NUM_COMMERCIAL,
                 GameDataTable.Cols.MONEY,
                 GameDataTable.Cols.POPULATION,
                 GameDataTable.Cols.EMPLOYMENTRATE,
@@ -70,8 +68,6 @@ public class GameDataSaveManager
                 String ID = getString(getColumnIndex(GameDataTable.Cols.ID));
                 Settings settings = (Settings) Tools.convertBytesToObj(getBlob(getColumnIndex(GameDataTable.Cols.SETTINGS)));
                 MapData map = (MapData) Tools.convertBytesToObj(getBlob(getColumnIndex(GameDataTable.Cols.MAP)));
-                int numResidential = getInt(getColumnIndex(GameDataTable.Cols.NUM_RESIDENTIAL));
-                int numCommercial = getInt(getColumnIndex(GameDataTable.Cols.NUM_COMMERCIAL));
                 int money = getInt(getColumnIndex(GameDataTable.Cols.MONEY));
                 int gameTime = getInt(getColumnIndex(GameDataTable.Cols.GAME_TIME));
 
@@ -79,8 +75,6 @@ public class GameDataSaveManager
                 game.setID(ID);
                 game.setSettings(settings);
                 game.setMap(map);
-                game.setNumResidential(numResidential);
-                game.setNumCommercial(numCommercial);
                 game.setMoney(money);
                 game.setGameTime(gameTime);
             }
@@ -128,6 +122,20 @@ public class GameDataSaveManager
         {
             Log.e(LOG_TAG, e.getMessage(), e);
         }
+        catch (Exception e)
+        {
+            Log.d(LOG_TAG, "Exception caught, recreating save file");
+
+            try
+            {
+                game = new GameData(new Settings());
+                save(game);
+            }
+            catch (GameDataException ex)
+            {
+                Log.e(LOG_TAG, ex.getMessage(), ex);
+            }
+        }
         finally
         {
             c.close();
@@ -157,8 +165,6 @@ public class GameDataSaveManager
             cv.put(GameDataTable.Cols.ID, game.getID());
             cv.put(GameDataTable.Cols.SETTINGS, Tools.convertObjToBytes(game.getSettings()));
             cv.put(GameDataTable.Cols.MAP, Tools.convertObjToBytes(game.getMap()));
-            cv.put(GameDataTable.Cols.NUM_RESIDENTIAL, game.getNumResidential());
-            cv.put(GameDataTable.Cols.NUM_COMMERCIAL, game.getNumCommercial());
             cv.put(GameDataTable.Cols.MONEY, game.getMoney());
             cv.put(GameDataTable.Cols.POPULATION, game.getPopulation());
             cv.put(GameDataTable.Cols.EMPLOYMENTRATE, game.getEmploymentRate());

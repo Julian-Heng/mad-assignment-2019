@@ -33,6 +33,5 @@ public class MapElement implements Serializable
         out += String.format("    \"ownerName\": \"%s\"\n}", ownerName);
 
         return out;
-        //return "{\n    \"struct\": \"\",\n    \"drawId\": \"\",\n    \"ownerName\": \"\"\n}";
     }
 }
