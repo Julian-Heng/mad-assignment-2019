@@ -1,17 +1,19 @@
 package curtin.edu.citysim.Core.Model;
 
 import curtin.edu.citysim.Core.Exception.GameDataException;
+import curtin.edu.citysim.R;
 
 import android.content.ContentValues;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class GameData implements Serializable
 {
     private String UUID;
 
     private Settings settings = null;
-    private MapElement[][] map = null;
+    private MapData map = null;
 
     private int numResidential = 0;
     private int numCommercial = 0;
@@ -30,6 +32,7 @@ public class GameData implements Serializable
             throw new GameDataException("Settings is not set");
 
         ContentValues cv = new ContentValues();
+        Random rng = new Random();
 
         UUID = java.util.UUID.randomUUID().toString();
         setSettings(settings);
@@ -37,20 +40,35 @@ public class GameData implements Serializable
         int width = settings.getIntSetting("mapWidth", 50);
         int height = settings.getIntSetting("mapHeight", 100);
 
+        /*
         map = new MapElement[width][height];
 
         for (int i = 0; i < width; i++)
+        {
             for (int j = 0; j < height; j++)
+            {
+                int drawId;
                 map[i][j] = new MapElement();
+
+                switch (rng.nextInt() % 4)
+                {
+                    case 1: map[i][j].setDrawId(R.drawable.ic_grass1); break;
+                    case 2: map[i][j].setDrawId(R.drawable.ic_grass2); break;
+                    case 3: map[i][j].setDrawId(R.drawable.ic_grass3); break;
+                    default: map[i][j].setDrawId(R.drawable.ic_grass4); break;
+                }
+            }
+        }
+         */
+        map = new MapData(width, height);
 
         money = settings.getIntSetting("initialMoney", 1000);
         gameTime = 0;
     }
 
-
     public void setID(String UUID) { this.UUID = UUID; }
     public void setSettings(Settings settings) { this.settings = settings; }
-    public void setMap(MapElement[][] map) { this.map = map; }
+    public void setMap(MapData map) { this.map = map; }
 
     public void setNumResidential(int numResidential) { this.numResidential = numResidential; }
     public void setNumCommercial(int numCommercial) { this.numCommercial = numCommercial; }
@@ -62,7 +80,7 @@ public class GameData implements Serializable
 
     public String getID() { return UUID; }
     public Settings getSettings() { return settings; }
-    public MapElement[][] getMap() { return map; }
+    public MapData getMap() { return map; }
 
     public int getNumResidential() { return numResidential; }
     public int getNumCommercial() { return numCommercial; }
@@ -94,11 +112,14 @@ public class GameData implements Serializable
     {
         String out = "{\n";
         out += "    \"settings\": " + settings.toString().replaceAll("\n", "\n    ") + ",\n";
+        /*
         out += "    \"map\": {\n        ";
 
         for (MapElement[] i : map)
             for (MapElement j : i)
                 out += j.toString().replaceAll("\n", "\n        ") + ",\n        ";
+         */
+        out += "    \"map\": " + map.toString().replaceAll("\n", "\n    ") + ",\n";
 
         out = out.replaceAll(",\n\\s{8}$", "\n    },\n");
         out += "    \"money\": " + Integer.toString(money) + ",\n";

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,21 +11,21 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="Details"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/txtGameTime"
-        app:layout_constraintStart_toStartOf="@+id/txtGameTime"
-        app:layout_constraintTop_toBottomOf="@+id/txtGameTime" />
-
-    <TextView
-        android:id="@+id/txtGameTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/btnDetails"
-        app:layout_constraintEnd_toStartOf="@+id/txtMoney"
+        app:layout_constraintBottom_toTopOf="@+id/btnDemolish"
+        app:layout_constraintEnd_toStartOf="@+id/txtSalary"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txtGameTime" />
+
+    <Button
+        android:id="@+id/btnDemolish"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Demolish"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnDetails"
+        app:layout_constraintStart_toStartOf="@+id/btnDetails"
+        app:layout_constraintTop_toBottomOf="@+id/btnDetails" />
 
     <TextView
         android:id="@+id/txtEmployment"
@@ -71,4 +70,15 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/txtMoney"
         app:layout_constraintTop_toTopOf="@+id/txtMoney" />
+
+    <TextView
+        android:id="@+id/txtGameTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/btnDetails"
+        app:layout_constraintEnd_toStartOf="@+id/txtMoney"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

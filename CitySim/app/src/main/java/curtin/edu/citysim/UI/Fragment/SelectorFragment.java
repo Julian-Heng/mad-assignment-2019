@@ -1,6 +1,7 @@
 package curtin.edu.citysim.UI.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,25 +17,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import curtin.edu.citysim.Core.Model.GameData;
 import curtin.edu.citysim.Core.Model.Structure;
-import curtin.edu.citysim.Core.Model.StructureData;
 import curtin.edu.citysim.R;
 
-public abstract class SelectorFragment extends Fragment
+public class SelectorFragment extends Fragment
 {
     private List<? extends Structure> structures;
+    private String label;
+    private GameData game;
 
     private class StructureDataHolder extends RecyclerView.ViewHolder
     {
-        private SelectorFragment frag;
         private Structure data;
-
         private ImageView image;
 
-        public StructureDataHolder(LayoutInflater inflater, ViewGroup parent, SelectorFragment frag)
+        public StructureDataHolder(LayoutInflater inflater, ViewGroup parent)
         {
             super(inflater.inflate(R.layout.list_selection, parent, false));
-            this.frag = frag;
 
             image = (ImageView)itemView.findViewById(R.id.selector_image);
         }
@@ -49,32 +48,32 @@ public abstract class SelectorFragment extends Fragment
 
     private class SelectorAdapter extends RecyclerView.Adapter<StructureDataHolder>
     {
-        private List<? extends Structure> data;
-        private SelectorFragment frag;
+        private List<? extends Structure> structures;
 
-        public SelectorAdapter(List<? extends Structure> data, SelectorFragment frag)
-        {
-            this.data = data;
-            this.frag = frag;
-        }
+        public SelectorAdapter(List<? extends Structure> data) { this.structures = data; }
 
-        @Override public int getItemCount() { return data.size(); }
+        @Override public int getItemCount() { return structures.size(); }
 
         @NonNull
         @Override
         public StructureDataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
         {
-            return new StructureDataHolder(LayoutInflater.from(getActivity()), parent, frag);
+            return new StructureDataHolder(LayoutInflater.from(getActivity()), parent);
         }
 
         @Override
         public void onBindViewHolder(@NonNull StructureDataHolder holder, int position)
         {
-            holder.bind(data.get(position));
+            holder.bind(structures.get(position));
         }
     }
 
-    public SelectorFragment(List<? extends Structure> structures) { this.structures = structures; }
+    public SelectorFragment(List<? extends Structure> structures, String label, GameData game)
+    {
+        this.structures = structures;
+        this.label = label;
+        this.game = game;
+    }
 
     @Nullable
     @Override
@@ -82,13 +81,11 @@ public abstract class SelectorFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_selector, container, false);
         RecyclerView rv = view.findViewById(R.id.selector_list);
-        TextView label = view.findViewById(R.id.selector_label);
-        label.setText(getLabel());
+        TextView txtLabel = view.findViewById(R.id.selector_label);
+        txtLabel.setText(label);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        rv.setAdapter(new SelectorAdapter(structures, this));
+        rv.setAdapter(new SelectorAdapter(structures));
 
         return view;
     }
-
-    public abstract String getLabel();
 }

@@ -18,6 +18,7 @@ import curtin.edu.citysim.Core.Exception.GameDataException;
 import curtin.edu.citysim.Core.Model.GameData;
 import curtin.edu.citysim.Core.Model.GameDataSchema;
 import curtin.edu.citysim.Core.Model.GameDataSchema.GameDataTable;
+import curtin.edu.citysim.Core.Model.MapData;
 import curtin.edu.citysim.Core.Model.MapElement;
 import curtin.edu.citysim.Core.Model.Settings;
 
@@ -68,7 +69,7 @@ public class GameDataSaveManager
             {
                 String ID = getString(getColumnIndex(GameDataTable.Cols.ID));
                 Settings settings = (Settings) Tools.convertBytesToObj(getBlob(getColumnIndex(GameDataTable.Cols.SETTINGS)));
-                MapElement[][] map = (MapElement[][]) Tools.convertBytesToObj(getBlob(getColumnIndex(GameDataTable.Cols.MAP)));
+                MapData map = (MapData) Tools.convertBytesToObj(getBlob(getColumnIndex(GameDataTable.Cols.MAP)));
                 int numResidential = getInt(getColumnIndex(GameDataTable.Cols.NUM_RESIDENTIAL));
                 int numCommercial = getInt(getColumnIndex(GameDataTable.Cols.NUM_COMMERCIAL));
                 int money = getInt(getColumnIndex(GameDataTable.Cols.MONEY));
