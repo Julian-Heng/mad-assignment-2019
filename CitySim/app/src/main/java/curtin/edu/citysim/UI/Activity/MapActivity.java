@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 
-import curtin.edu.citysim.Core.Model.GameData;
-import curtin.edu.citysim.Core.Model.StructureData;
+import curtin.edu.citysim.Core.Model.Game.GameData;
+import curtin.edu.citysim.Core.Model.Structures.StructureData;
 import curtin.edu.citysim.MainActivity;
 import curtin.edu.citysim.R;
 import curtin.edu.citysim.UI.Fragment.MapFragment;
@@ -41,7 +41,7 @@ public class MapActivity extends AppCompatActivity
         resFrag = resFrag != null ? resFrag : new SelectorFragment(structures.getAllResidentials(), "Residential", game);
         comFrag = comFrag != null ? comFrag : new SelectorFragment(structures.getAllCommercials(), "Commercial", game);
         roadFrag = roadFrag != null ? roadFrag : new SelectorFragment(structures.getAllRoads(), "Road", game);
-        statusFrag = statusFrag != null ? statusFrag : new StatusFragment(game);
+        statusFrag = statusFrag != null ? statusFrag : new StatusFragment(game, mapFrag);
 
         fm.beginTransaction().add(R.id.map, mapFrag).commit();
         fm.beginTransaction().add(R.id.selector_residential, resFrag).commit();

@@ -1,4 +1,4 @@
-package curtin.edu.citysim.Core.Model;
+package curtin.edu.citysim.Core.Model.Structures;
 
 import java.io.Serializable;
 

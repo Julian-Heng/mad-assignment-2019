@@ -1,10 +1,12 @@
-package curtin.edu.citysim.Core.Model;
+package curtin.edu.citysim.Core.Model.Game;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
+import curtin.edu.citysim.Core.Model.Structures.Commercial;
+import curtin.edu.citysim.Core.Model.Structures.Residential;
+import curtin.edu.citysim.Core.Model.Structures.Road;
+import curtin.edu.citysim.Core.Model.Structures.Structure;
 import curtin.edu.citysim.R;
 
 public class MapData implements Serializable
@@ -14,9 +16,9 @@ public class MapData implements Serializable
     private int width;
     private int height;
 
-    private List<Residential> residentials = new ArrayList<>();
-    private List<Commercial> commercials = new ArrayList<>();
-    private List<Road> roads = new ArrayList<>();
+    private int numResidential = 0;
+    private int numCommercial = 0;
+    private int numRoads = 0;
 
     public MapData(int width, int height)
     {
@@ -31,6 +33,7 @@ public class MapData implements Serializable
             for (int j = 0; j < width; j++)
             {
                 map[i][j] = new MapElement();
+                map[i][j].setOwnerName("");
 
                 switch (rng.nextInt() % 4)
                 {
@@ -45,11 +48,12 @@ public class MapData implements Serializable
 
     public int getWidth() { return width; }
     public int getHeight() { return height; }
-    public int getNumResidential() { return residentials.size(); }
-    public int getNumCommercial() { return commercials.size(); }
-    public int getNumRoad() { return roads.size(); }
-
+    public int getNumResidential() { return numResidential; }
+    public int getNumCommercial() { return numCommercial; }
+    public int getNumRoad() { return numRoads; }
     public MapElement getElement(int i, int j) { return map[i][j]; }
+
+    public void setElement(int i, int j, MapElement newElement) { map[i][j] = newElement; }
 
     public boolean adjacentToRoad(int i, int j)
     {
@@ -61,19 +65,19 @@ public class MapData implements Serializable
 
     public void build(Residential newRes, int i, int j)
     {
-        residentials.add(newRes);
+        numResidential++;
         map[i][j].setStruct(newRes);
     }
 
     public void build(Commercial newComm, int i, int j)
     {
-        commercials.add(newComm);
+        numCommercial++;
         map[i][j].setStruct(newComm);
     }
 
     public void build(Road newRoad, int i, int j)
     {
-        roads.add(newRoad);
+        numRoads++;
         map[i][j].setStruct(newRoad);
     }
 
@@ -81,10 +85,14 @@ public class MapData implements Serializable
     {
         Structure temp = map[i][j].getStruct();
         map[i][j].setStruct(null);
+        map[i][j].setImg(null);
 
-        residentials.remove(temp);
-        commercials.remove(temp);
-        roads.remove(temp);
+        if (temp instanceof Residential)
+            numResidential--;
+        else if (temp instanceof Commercial)
+            numCommercial--;
+        else if (temp instanceof  Road)
+            numRoads--;
     }
 
     public String toString()

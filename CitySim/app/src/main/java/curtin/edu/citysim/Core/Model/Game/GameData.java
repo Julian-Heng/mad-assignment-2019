@@ -1,16 +1,22 @@
-package curtin.edu.citysim.Core.Model;
+package curtin.edu.citysim.Core.Model.Game;
 
 import curtin.edu.citysim.Core.Exception.GameDataException;
-import curtin.edu.citysim.R;
+import curtin.edu.citysim.Core.Model.Structures.Commercial;
+import curtin.edu.citysim.Core.Model.Structures.Residential;
+import curtin.edu.citysim.Core.Model.Structures.Road;
+import curtin.edu.citysim.Core.Model.Structures.Structure;
 
 import android.content.ContentValues;
 
 import java.io.Serializable;
-import java.sql.Struct;
 import java.util.Random;
 
 public class GameData implements Serializable
 {
+    public static final int DEFAULT = 0;
+    public static final int DETAILS = 1;
+    public static final int DEMOLISH = 2;
+
     private String UUID;
 
     private Settings settings = null;
@@ -23,7 +29,7 @@ public class GameData implements Serializable
     private int gameTime = 0;
 
     private Structure selectedStruct = null;
-    private boolean demolish = false;
+    private int mode;
 
     public GameData() {}
 
@@ -52,6 +58,15 @@ public class GameData implements Serializable
     {
         this.settings = settings;
         money = settings.getIntSetting("initialMoney", 1000);
+
+        if (map != null)
+        {
+            int width = settings.getIntSetting("mapWidth", 50);
+            int height = settings.getIntSetting("mapHeight", 100);
+
+            if (width != map.getWidth() || height != map.getHeight())
+                map = new MapData(width, height);
+        }
     }
 
     public void setMap(MapData map) { this.map = map; }
@@ -62,7 +77,7 @@ public class GameData implements Serializable
     public void setGameTime(int gameTime) { this.gameTime = gameTime; }
 
     public void setSelectedStruct(Structure selectedStruct) { this.selectedStruct = selectedStruct; }
-    public void toggleDemolish() { demolish = ! demolish; }
+    public void setMode(int mode) { this.mode = this.mode == mode ? DEFAULT : mode; }
 
     public String getID() { return UUID; }
     public Settings getSettings() { return settings; }
@@ -75,7 +90,7 @@ public class GameData implements Serializable
     public int getGameTime() { return gameTime; }
 
     public Structure getSelectedStruct() { return selectedStruct; }
-    public boolean getDemolish() { return demolish; }
+    public int getMode() { return mode; }
 
     public void build(int i, int j)
     {
@@ -119,18 +134,21 @@ public class GameData implements Serializable
 
     public void step()
     {
-        int familySize = settings.getIntSetting("familySize");
-        int shopSize = settings.getIntSetting("shopSize");
-        int individualSalary = settings.getIntSetting("salary");
-        double taxRate = settings.getDoubleSetting("taxRate");
-        int serviceCost = settings.getIntSetting("serviceCost");
+        if (! isGameOver())
+        {
+            int familySize = settings.getIntSetting("familySize");
+            int shopSize = settings.getIntSetting("shopSize");
+            int individualSalary = settings.getIntSetting("salary");
+            double taxRate = settings.getDoubleSetting("taxRate");
+            int serviceCost = settings.getIntSetting("serviceCost");
 
-        population = familySize * map.getNumResidential();
-        employmentRate = Math.min(1.0, map.getNumCommercial() * shopSize / (population > 0  ? population : 1));
+            population = familySize * map.getNumResidential();
+            employmentRate = Math.min(1.0, map.getNumCommercial() * shopSize / (population > 0 ? population : 1));
 
-        salary = (int)(population * (employmentRate * individualSalary * taxRate - serviceCost));
-        money += salary;
-        gameTime++;
+            salary = (int) (population * (employmentRate * individualSalary * taxRate - serviceCost));
+            money += salary;
+            gameTime++;
+        }
     }
 
     public boolean isGameOver() { return money < 0; }

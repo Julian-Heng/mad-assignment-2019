@@ -1,5 +1,7 @@
 package curtin.edu.citysim.UI.Fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,13 +20,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import curtin.edu.citysim.Core.Model.GameData;
-import curtin.edu.citysim.Core.Model.MapData;
-import curtin.edu.citysim.Core.Model.MapElement;
+import curtin.edu.citysim.Core.Model.Game.GameData;
+import curtin.edu.citysim.Core.Model.Game.MapData;
+import curtin.edu.citysim.Core.Model.Game.MapElement;
 import curtin.edu.citysim.R;
+import curtin.edu.citysim.UI.Activity.DetailsActivity;
 
 public class MapFragment extends Fragment
 {
+    public static final String COLUMN_POSITION = "column";
+    public static final String ROW_POSITION = "row";
+    public static final String MAP_ELEMENT = "map_element";
+
+    private static final int REQUEST_DETAILS = 1;
+
     private GameData game;
     private MapAdapter adapter;
 
@@ -72,10 +81,22 @@ public class MapFragment extends Fragment
                     int i = getAdapterPosition() % map.getHeight();
                     int j = getAdapterPosition() / map.getHeight();
 
-                    if (game.getDemolish())
+                    if (game.getMode() == GameData.DEMOLISH)
                     {
                         Log.d("MAP", String.format("Demolishing (%d, %d): %s", i, j, data.toString()));
                         map.demolish(i, j);
+                    }
+                    else if (game.getMode() == GameData.DETAILS && data.getStruct() != null)
+                    {
+                        Log.d("MAP", String.format("Details (%d, %d): %s", i, j, data.toString()));
+
+                        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                        intent.putExtra(ROW_POSITION, i);
+                        intent.putExtra(COLUMN_POSITION, j);
+                        intent.putExtra(MAP_ELEMENT, data);
+
+                        startActivityForResult(intent, REQUEST_DETAILS);
+                        game.setMode(GameData.DEFAULT);
                     }
                     else if (data.getStruct() == null && game.getSelectedStruct() != null)
                     {
@@ -97,7 +118,9 @@ public class MapFragment extends Fragment
             cellGround.setImageResource(data.getDrawId());
             Log.d("MAP", String.format("(%d, %d): %s", i, j, data.toString()));
 
-            if (data.getStruct() != null)
+            if (data.getImg() != null)
+                cellStruct.setImageBitmap(data.getImg().getImg());
+            else if (data.getStruct() != null)
                 cellStruct.setImageResource(data.getStruct().getImageID());
             else
                 cellStruct.setImageDrawable(null);
@@ -127,6 +150,7 @@ public class MapFragment extends Fragment
         }
 
         // From https://stackoverflow.com/a/43730205
+        // Accessed on 3/10/19
         // Needed because the grid would draw duplicate structures, when there's no such structures set
         @Override public long getItemId(int position) { return position; }
         @Override public int getItemViewType(int position) { return position; }
@@ -145,7 +169,14 @@ public class MapFragment extends Fragment
             public void handleMessage(Message m)
             {
                 if (m.what == 101)
+                {
                     game.step();
+                    if (game.isGameOver())
+                    {
+                        getActivity().onBackPressed();
+                        gameTimer.cancel();
+                    }
+                }
             }
         };
 
@@ -180,5 +211,30 @@ public class MapFragment extends Fragment
         rv.setAdapter((adapter = new MapAdapter(game.getMap())));
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK)
+            return;
+
+        int i, j;
+        MapElement newData;
+
+        if (requestCode == REQUEST_DETAILS)
+        {
+            i = data.getIntExtra(ROW_POSITION, -1);
+            j = data.getIntExtra(COLUMN_POSITION, -1);
+            newData = (MapElement)data.getSerializableExtra(MAP_ELEMENT);
+
+            if (i == -1 || j == -1)
+                return;
+
+            game.getMap().setElement(i, j, newData);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

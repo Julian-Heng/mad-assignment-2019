@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import curtin.edu.citysim.Core.Exception.GameDataException;
-import curtin.edu.citysim.Core.Model.GameData;
-import curtin.edu.citysim.Core.Model.Settings;
+import curtin.edu.citysim.Core.Model.Game.GameData;
+import curtin.edu.citysim.Core.Model.Game.Settings;
 import curtin.edu.citysim.MainActivity;
 import curtin.edu.citysim.R;
 

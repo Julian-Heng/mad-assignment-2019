@@ -1,10 +1,6 @@
-package curtin.edu.citysim.Core.Model;
-
-import android.provider.ContactsContract;
+package curtin.edu.citysim.Core.Model.Structures;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

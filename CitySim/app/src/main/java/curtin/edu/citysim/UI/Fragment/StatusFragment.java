@@ -1,6 +1,5 @@
 package curtin.edu.citysim.UI.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,11 +18,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import curtin.edu.citysim.Core.Model.GameData;
-import curtin.edu.citysim.Core.Model.Settings;
-import curtin.edu.citysim.MainActivity;
+import curtin.edu.citysim.Core.Model.Game.GameData;
 import curtin.edu.citysim.R;
-import curtin.edu.citysim.UI.Activity.DetailsActivity;
 
 public class StatusFragment extends Fragment
 {
@@ -35,9 +31,12 @@ public class StatusFragment extends Fragment
     private Button btnDetails;
     private Button btnDemolish;
 
-    public StatusFragment(GameData game)
+    private MapFragment mapFrag;
+
+    public StatusFragment(GameData game, MapFragment mapFrag)
     {
         this.game = game;
+        this.mapFrag = mapFrag;
 
         handler = new Handler()
         {
@@ -78,18 +77,12 @@ public class StatusFragment extends Fragment
 
         btnDetails.setOnClickListener(new View.OnClickListener()
         {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(MainActivity.GAME, game);
-                startActivity(intent);
-            }
+            @Override public void onClick(View v) { game.setMode(GameData.DETAILS); }
         });
 
         btnDemolish.setOnClickListener(new View.OnClickListener()
         {
-            @Override public void onClick(View v) { game.toggleDemolish(); }
+            @Override public void onClick(View v) { game.setMode(GameData.DEMOLISH); }
         });
 
         updateStatus();
@@ -100,10 +93,11 @@ public class StatusFragment extends Fragment
     public void updateStatus()
     {
         txts.get("txtGameTime").setText("Game Time: " + game.getGameTime());
-        txts.get("txtMoney").setText("Money: " + game.getMoney());
-        txts.get("txtSalary").setText("Salary: " + game.getSalary());
+        txts.get("txtMoney").setText("Money: $" + game.getMoney());
+        txts.get("txtSalary").setText("Salary: $" + game.getSalary());
         txts.get("txtPopulation").setText("Population: " + game.getPopulation());
-        txts.get("txtEmployment").setText("Employment rate: " + game.getEmploymentRate());
-        btnDemolish.setText(game.getDemolish() ? "Quit" : "Demolish");
+        txts.get("txtEmployment").setText("Employment rate:\n" + (game.getEmploymentRate() * 100) + "%");
+        btnDemolish.setText(game.getMode() == GameData.DEMOLISH ? "Quit" : "Demolish");
+        btnDetails.setText(game.getMode() == GameData.DETAILS ? "Quit" : "Details");
     }
 }

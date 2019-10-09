@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import curtin.edu.citysim.Core.Model.GameData;
-import curtin.edu.citysim.Core.Model.Structure;
+import curtin.edu.citysim.Core.Model.Game.GameData;
+import curtin.edu.citysim.Core.Model.Structures.Structure;
 import curtin.edu.citysim.R;
 
 public class SelectorFragment extends Fragment
@@ -45,7 +45,18 @@ public class SelectorFragment extends Fragment
                 public void onClick(View v)
                 {
                     Log.d("SELECTOR", "Selected: " + data.toString());
-                    game.setSelectedStruct(data);
+
+                    if (getAdapterPosition() == adapter.getSelected())
+                    {
+                        adapter.setSelected(RecyclerView.NO_POSITION);
+                        game.setSelectedStruct(null);
+                    }
+                    else
+                    {
+                        adapter.setSelected(getAdapterPosition());
+                        game.setSelectedStruct(data);
+                    }
+
                     adapter.notifyItemChanged(getAdapterPosition());
                 }
             });
@@ -61,6 +72,7 @@ public class SelectorFragment extends Fragment
     private class SelectorAdapter extends RecyclerView.Adapter<StructureDataHolder>
     {
         private List<? extends Structure> structures;
+        private int selected = RecyclerView.NO_POSITION;
 
         public SelectorAdapter(List<? extends Structure> data) { this.structures = data; }
 
@@ -78,6 +90,9 @@ public class SelectorFragment extends Fragment
         {
             holder.bind(structures.get(position));
         }
+
+        public void setSelected(int selected) { this.selected = selected; }
+        public int getSelected() { return selected; }
     }
 
     public SelectorFragment(List<? extends Structure> structures, String label, GameData game)

@@ -8,19 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import curtin.edu.citysim.Core.Exception.GameDataException;
-import curtin.edu.citysim.Core.Model.GameData;
-import curtin.edu.citysim.Core.Model.GameDataSchema;
-import curtin.edu.citysim.Core.Model.GameDataSchema.GameDataTable;
-import curtin.edu.citysim.Core.Model.MapData;
-import curtin.edu.citysim.Core.Model.MapElement;
-import curtin.edu.citysim.Core.Model.Settings;
+import curtin.edu.citysim.Core.Model.Game.GameData;
+import curtin.edu.citysim.Core.Model.Game.GameDataSchema.GameDataTable;
+import curtin.edu.citysim.Core.Model.Game.MapData;
+import curtin.edu.citysim.Core.Model.Game.Settings;
 
 public class GameDataSaveManager
 {

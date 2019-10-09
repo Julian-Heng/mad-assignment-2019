@@ -11,8 +11,8 @@ import android.widget.Button;
 import curtin.edu.citysim.UI.Activity.MapActivity;
 import curtin.edu.citysim.UI.Activity.SettingsActivity;
 import curtin.edu.citysim.Core.Controller.GameDataSaveManager;
-import curtin.edu.citysim.Core.Model.GameData;
-import curtin.edu.citysim.Core.Model.StructureData;
+import curtin.edu.citysim.Core.Model.Game.GameData;
+import curtin.edu.citysim.Core.Model.Structures.StructureData;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -52,10 +52,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(MainActivity.this, MapActivity.class);
-                intent.putExtra(GAME, game);
-                intent.putExtra(STRUCT, structures);
-                startActivityForResult(intent, REQUEST_MAP);
+                if (! game.isGameOver())
+                {
+                    Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                    intent.putExtra(GAME, game);
+                    intent.putExtra(STRUCT, structures);
+                    startActivityForResult(intent, REQUEST_MAP);
+                }
             }
         });
 
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(intent, REQUEST_SETTINGS);
             }
         });
+
+        checkGameOver();
     }
 
     @Override
@@ -79,13 +84,21 @@ public class MainActivity extends AppCompatActivity
         if (resultCode != RESULT_OK)
             return;
 
-        switch (requestCode)
-        {
-            case REQUEST_SETTINGS: case REQUEST_MAP:
-                game = (GameData)data.getSerializableExtra(GAME);
-                break;
-        }
+        saveManager.save((game = (GameData)data.getSerializableExtra(GAME)));
+        checkGameOver();
+    }
 
-        saveManager.save(game);
+    private void checkGameOver()
+    {
+        if (game.isGameOver())
+        {
+            btnMap.setEnabled(false);
+            btnMap.setText("Game Over");
+        }
+        else
+        {
+            btnMap.setEnabled(true);
+            btnMap.setText("Map");
+        }
     }
 }
