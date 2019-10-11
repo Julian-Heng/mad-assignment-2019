@@ -85,34 +85,34 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        try
+        if (! game.isGameOver())
         {
-            settings.setIntSetting(
-                "mapWidth",
-                Integer.parseInt(txtEditWidth.getText().toString())
-            );
-        }
-        catch (NumberFormatException e) {}
+            try
+            {
+                settings.setIntSetting(
+                    "mapWidth",
+                    Integer.parseInt(txtEditWidth.getText().toString())
+                );
+            } catch (NumberFormatException e) {}
 
-        try
-        {
-            settings.setIntSetting(
-                "mapHeight",
-                Integer.parseInt(txtEditHeight.getText().toString())
-            );
-        }
-        catch (NumberFormatException e) {}
+            try
+            {
+                settings.setIntSetting(
+                    "mapHeight",
+                    Integer.parseInt(txtEditHeight.getText().toString())
+                );
+            } catch (NumberFormatException e) {}
 
-        try
-        {
-            settings.setIntSetting(
-                "initialMoney",
-                Integer.parseInt(txtEditMoney.getText().toString())
-            );
-        }
-        catch (NumberFormatException e) {}
+            try
+            {
+                settings.setIntSetting(
+                    "initialMoney",
+                    Integer.parseInt(txtEditMoney.getText().toString())
+                );
+            } catch (NumberFormatException e) {}
 
-        game.setSettings(settings);
+            game.setSettings(settings);
+        }
 
         Intent intent = new Intent();
         intent.putExtra(MainActivity.GAME, game);
