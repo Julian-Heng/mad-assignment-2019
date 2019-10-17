@@ -9,6 +9,9 @@ import curtin.edu.citysim.Core.Model.Structures.Road;
 import curtin.edu.citysim.Core.Model.Structures.Structure;
 import curtin.edu.citysim.R;
 
+/**
+ * MapData class to represent the game map/grid
+ */
 public class MapData implements Serializable
 {
     private MapElement[][] map;
@@ -20,6 +23,12 @@ public class MapData implements Serializable
     private int numCommercial = 0;
     private int numRoads = 0;
 
+    /**
+     * Construct a new MapData with width and height dimensions
+     *
+     * @param width
+     * @param height
+     */
     public MapData(int width, int height)
     {
         this.height = height;
@@ -35,6 +44,7 @@ public class MapData implements Serializable
                 map[i][j] = new MapElement();
                 map[i][j].setOwnerName("");
 
+                // Randomize ground
                 switch (rng.nextInt() % 4)
                 {
                     case 1: map[i][j].setDrawId(R.drawable.ic_grass1); break;
@@ -55,6 +65,13 @@ public class MapData implements Serializable
 
     public void setElement(int i, int j, MapElement newElement) { map[i][j] = newElement; }
 
+    /**
+     * Check if selected grid is adjacent to a road struct
+     *
+     * @param i row index
+     * @param j column index
+     * @return true or false
+     */
     public boolean adjacentToRoad(int i, int j)
     {
         return (getElement(Math.max(0, i - 1), j).getStruct() instanceof Road ||
@@ -81,12 +98,19 @@ public class MapData implements Serializable
         map[i][j].setStruct(newRoad);
     }
 
+    /**
+     * Demolish a struct at grid
+     *
+     * @param i row index
+     * @param j column index
+     */
     public void demolish(int i, int j)
     {
         Structure temp = map[i][j].getStruct();
         map[i][j].setStruct(null);
         map[i][j].setImg(null);
 
+        // Update number count
         if (temp instanceof Residential)
             numResidential--;
         else if (temp instanceof Commercial)

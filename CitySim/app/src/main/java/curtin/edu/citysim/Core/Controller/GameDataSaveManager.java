@@ -16,8 +16,18 @@ import curtin.edu.citysim.Core.Model.Game.GameDataSchema.GameDataTable;
 import curtin.edu.citysim.Core.Model.Game.MapData;
 import curtin.edu.citysim.Core.Model.Game.Settings;
 
+/**
+ * Loads and saves a GameData object to a database
+ */
 public class GameDataSaveManager
 {
+    private static final String LOG_TAG = "SAVEMANAGER";
+    private SQLiteDatabase db;
+
+    /**
+     * Database Helper that extends SQLiteOpenHelper
+     * Creates a database if it doesn't exist
+     */
     private class GameDataDbHelper extends SQLiteOpenHelper
     {
         private static final int VERSION = 1;
@@ -48,12 +58,18 @@ public class GameDataSaveManager
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
     }
 
+    /**
+     * Cursor object for querying database
+     */
     private class GameDataCursor extends CursorWrapper
     {
         private static final String LOG_TAG = "CURSOR";
 
         public GameDataCursor(Cursor cursor) { super(cursor); }
 
+        /**
+         * @return A GameData object that can be null if database contains an invalid entry
+         */
         public GameData getGameData()
         {
             GameData game = null;
@@ -81,15 +97,15 @@ public class GameDataSaveManager
         }
     }
 
-    private static final String LOG_TAG = "SAVEMANAGER";
-    private SQLiteDatabase db;
-
     public GameDataSaveManager(Context context)
     {
         Log.d(LOG_TAG, "GameDataSaveManager() called");
         this.db = new GameDataDbHelper(context.getApplicationContext()).getWritableDatabase();
     }
 
+    /**
+     * @return Returns a GameData object from the database
+     */
     public GameData load()
     {
         Log.d(LOG_TAG, "load() called");
@@ -100,6 +116,8 @@ public class GameDataSaveManager
         try
         {
             c.moveToFirst();
+
+            // Only supports getting one entry from the database at the moment
             if (c.getCount() > 0)
             {
                 game = c.getGameData();
@@ -107,8 +125,11 @@ public class GameDataSaveManager
             }
             else
             {
+                // No entry in database, create new save
                 Log.d(LOG_TAG, "load(): No entry in database, creating new save");
                 game = new GameData(new Settings());
+
+                // Save to database
                 save(game);
             }
         }
@@ -120,6 +141,7 @@ public class GameDataSaveManager
         {
             Log.d(LOG_TAG, "Exception caught, recreating save file");
 
+            // Exception, create new save
             try
             {
                 game = new GameData(new Settings());
@@ -142,10 +164,14 @@ public class GameDataSaveManager
         return game;
     }
 
+    /**
+     * @param game GameData object to save to the database
+     */
     public void save(GameData game)
     {
         Log.d(LOG_TAG, "save() called");
 
+        // Get all entries in database
         GameDataCursor c = queryAll();
 
         try
@@ -154,6 +180,7 @@ public class GameDataSaveManager
             for (String i : game.toString().split("\n"))
                 Log.d(LOG_TAG, "save(): " + i);
 
+            // Construct ContentValue to be inserted to the database
             ContentValues cv = new ContentValues();
 
             cv.put(GameDataTable.Cols.ID, game.getID());
@@ -164,6 +191,7 @@ public class GameDataSaveManager
             cv.put(GameDataTable.Cols.EMPLOYMENTRATE, game.getEmploymentRate());
             cv.put(GameDataTable.Cols.GAME_TIME, game.getGameTime());
 
+            // Check if database is empty to insert, or update
             if (c.getCount() > 0)
             {
                 db.update(GameDataTable.NAME, cv,
@@ -183,6 +211,9 @@ public class GameDataSaveManager
         }
     }
 
+    /**
+     * @return cursor with a catch all query
+     */
     private GameDataCursor queryAll()
     {
         Log.d(LOG_TAG, "queryAll() called");

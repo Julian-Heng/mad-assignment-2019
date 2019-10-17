@@ -28,6 +28,10 @@ public class SelectorFragment extends Fragment
     private GameData game;
     private SelectorAdapter adapter;
 
+    /**
+     * StructureDataHolder that extends the RecyclerView's ViewHolder
+     * Holds a structure for each list
+     */
     private class StructureDataHolder extends RecyclerView.ViewHolder
     {
         private Structure data;
@@ -37,6 +41,7 @@ public class SelectorFragment extends Fragment
         {
             super(inflater.inflate(R.layout.list_selection, parent, false));
 
+            // Find and set the image in the holder
             image = (ImageView)itemView.findViewById(R.id.selector_image);
 
             image.setOnClickListener(new View.OnClickListener()
@@ -46,13 +51,16 @@ public class SelectorFragment extends Fragment
                 {
                     Log.d("SELECTOR", "Selected: " + data.toString());
 
+                    // If we select the same struct that is recorded in the game
                     if (getAdapterPosition() == adapter.getSelected())
                     {
+                        // Reset the selected struct to null
                         adapter.setSelected(RecyclerView.NO_POSITION);
                         game.setSelectedStruct(null);
                     }
                     else
                     {
+                        // Set the selected struct in the game object
                         adapter.setSelected(getAdapterPosition());
                         game.setSelectedStruct(data);
                     }
@@ -69,6 +77,9 @@ public class SelectorFragment extends Fragment
         }
     }
 
+    /**
+     * SelectorAdapter class that extends RecyclerView's adapter
+     */
     private class SelectorAdapter extends RecyclerView.Adapter<StructureDataHolder>
     {
         private List<? extends Structure> structures;
@@ -95,6 +106,13 @@ public class SelectorFragment extends Fragment
         public int getSelected() { return selected; }
     }
 
+    /**
+     * Selector fragment constructor
+     *
+     * @param structures List of structures to be displayed in the list
+     * @param label The text set to the label in the selector fragment
+     * @param game A GameData object to record changes to
+     */
     public SelectorFragment(List<? extends Structure> structures, String label, GameData game)
     {
         this.structures = structures;
@@ -108,8 +126,12 @@ public class SelectorFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_selector, container, false);
         RecyclerView rv = view.findViewById(R.id.selector_list);
+
+        // Find and set label
         TextView txtLabel = view.findViewById(R.id.selector_label);
         txtLabel.setText(label);
+
+        // Setup recycler view
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         rv.setAdapter((adapter = new SelectorAdapter(structures)));
 

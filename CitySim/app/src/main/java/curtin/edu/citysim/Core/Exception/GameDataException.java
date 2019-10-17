@@ -1,5 +1,8 @@
 package curtin.edu.citysim.Core.Exception;
 
+/**
+ * Exception class for GameData
+ */
 public class GameDataException extends Exception
 {
     private static String msg;

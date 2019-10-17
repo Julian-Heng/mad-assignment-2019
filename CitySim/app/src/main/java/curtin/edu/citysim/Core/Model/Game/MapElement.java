@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import curtin.edu.citysim.Core.Model.Structures.Structure;
 
+/**
+ * MapElement class to represent each grid element
+ */
 public class MapElement implements Serializable
 {
     private Structure struct = null;

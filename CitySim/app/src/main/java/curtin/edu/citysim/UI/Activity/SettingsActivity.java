@@ -35,9 +35,11 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        // Get data from activity
         game = (GameData)getIntent().getSerializableExtra(MainActivity.GAME);
         settings = game.getSettings();
 
+        // Find views
         txtEditWidth = (EditText)findViewById(R.id.txtEditWidth);
         txtEditHeight = (EditText)findViewById(R.id.txtEditHeight);
         txtEditMoney = (EditText)findViewById(R.id.txtEditMoney);
@@ -85,35 +87,32 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
+        // Don't allow changing settings if game is already over
         if (! game.isGameOver())
         {
-            try
-            {
-                settings.setIntSetting(
-                    "mapWidth",
-                    Integer.parseInt(txtEditWidth.getText().toString())
-                );
-            } catch (NumberFormatException e) {}
+            int[] settingValues = new int[3];
 
             try
             {
-                settings.setIntSetting(
-                    "mapHeight",
-                    Integer.parseInt(txtEditHeight.getText().toString())
-                );
-            } catch (NumberFormatException e) {}
+                settingValues[0] = Integer.parseInt(txtEditWidth.getText().toString());
+                settingValues[1] = Integer.parseInt(txtEditHeight.getText().toString());
+                settingValues[2] = Integer.parseInt(txtEditMoney.getText().toString());
 
-            try
+                settingValues[0] = settingValues[0] < 1 ? settings.getIntSetting("mapWidth") : settingValues[0];
+                settingValues[1] = settingValues[1] < 1 ? settings.getIntSetting("mapHeight") : settingValues[1];
+
+                settings.setSetting("mapWidth", settingValues[0]);
+                settings.setSetting("mapHeight", settingValues[1]);
+                settings.setSetting("initialMoney", settingValues[2]);
+
+                game.setSettings(settings);
+            }
+            catch (NumberFormatException e)
             {
-                settings.setIntSetting(
-                    "initialMoney",
-                    Integer.parseInt(txtEditMoney.getText().toString())
-                );
-            } catch (NumberFormatException e) {}
-
-            game.setSettings(settings);
+            }
         }
 
+        // Return data back to calling activity
         Intent intent = new Intent();
         intent.putExtra(MainActivity.GAME, game);
         setResult(RESULT_OK, intent);
@@ -122,16 +121,9 @@ public class SettingsActivity extends AppCompatActivity
 
     private void setTextBoxes()
     {
-        txtEditWidth.setText(
-            Integer.toString(settings.getIntSetting("mapWidth", 50))
-        );
-
-        txtEditHeight.setText(
-            Integer.toString(settings.getIntSetting("mapHeight", 10))
-        );
-
-        txtEditMoney.setText(
-            Integer.toString(settings.getIntSetting("initialMoney", 1000))
-        );
+        // Update the text in the edit text box to reflect changes in the settings object
+        txtEditWidth.setText(Integer.toString(settings.getIntSetting("mapWidth", 50)));
+        txtEditHeight.setText(Integer.toString(settings.getIntSetting("mapHeight", 10)));
+        txtEditMoney.setText(Integer.toString(settings.getIntSetting("initialMoney", 1000)));
     }
 }

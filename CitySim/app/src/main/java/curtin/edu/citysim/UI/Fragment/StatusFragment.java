@@ -31,13 +31,16 @@ public class StatusFragment extends Fragment
     private Button btnDetails;
     private Button btnDemolish;
 
-    private MapFragment mapFrag;
-
-    public StatusFragment(GameData game, MapFragment mapFrag)
+    /**
+     * StatusFragment constructor
+     *
+     * @param game A GameData object to fetch info from
+     */
+    public StatusFragment(GameData game)
     {
         this.game = game;
-        this.mapFrag = mapFrag;
 
+        // Setup status updater as a task
         handler = new Handler()
         {
             public void handleMessage(Message m)
@@ -48,6 +51,8 @@ public class StatusFragment extends Fragment
         };
 
         statusUpdater = new Timer();
+
+        // Update every 0.5 seconds
         statusUpdater.scheduleAtFixedRate(new TimerTask()
         {
             @Override
@@ -66,6 +71,7 @@ public class StatusFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_status, container, false);
 
+        // Find views
         txts.put("txtGameTime", (TextView)view.findViewById(R.id.txtGameTime));
         txts.put("txtMoney", (TextView)view.findViewById(R.id.txtMoney));
         txts.put("txtSalary", (TextView)view.findViewById(R.id.txtSalary));
@@ -75,6 +81,7 @@ public class StatusFragment extends Fragment
         btnDetails = (Button)view.findViewById(R.id.btnDetails);
         btnDemolish = (Button)view.findViewById(R.id.btnDemolish);
 
+        // Set event handlers
         btnDetails.setOnClickListener(new View.OnClickListener()
         {
             @Override public void onClick(View v) { game.setMode(GameData.DETAILS); }
@@ -90,6 +97,9 @@ public class StatusFragment extends Fragment
         return view;
     }
 
+    /**
+     * Update text views using information from GameData
+     */
     public void updateStatus()
     {
         txts.get("txtGameTime").setText("Game Time: " + game.getGameTime());

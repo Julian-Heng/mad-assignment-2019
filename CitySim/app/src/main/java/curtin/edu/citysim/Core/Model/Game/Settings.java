@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Settings class to store settings for a GameData object
+ */
 public class Settings implements Serializable
 {
     private Map<String,Number> settings = new HashMap<>();
@@ -23,9 +26,19 @@ public class Settings implements Serializable
         settings.put("roadBuildingCost", 20);
     }
 
+    /*
     public void setIntSetting(String k, int v) { settings.put(k, v); }
     public void setDoubleSetting(String k, double v) { settings.put(k, v); }
+     */
+    public void setSetting(String k, Number v) { settings.put(k, v); }
 
+    /**
+     * Fetch an integer setting or return fallback
+     *
+     * @param k setting key
+     * @param fallback value to return if key is not found
+     * @return setting value
+     */
     public int getIntSetting(String k, int fallback)
     {
         try
@@ -40,6 +53,13 @@ public class Settings implements Serializable
 
     public int getIntSetting(String k) { return settings.get(k).intValue(); }
 
+    /**
+     * Fetch an double setting or return fallback
+     *
+     * @param k setting key
+     * @param fallback value to return if key is not found
+     * @return setting value
+     */
     public double getDoubleSetting(String k, double fallback)
     {
         try

@@ -2,6 +2,9 @@ package curtin.edu.citysim.Core.Model.Structures;
 
 import java.io.Serializable;
 
+/**
+ * Structure class to store the drawable image id
+ */
 public abstract class Structure implements Serializable
 {
     private int imageID;

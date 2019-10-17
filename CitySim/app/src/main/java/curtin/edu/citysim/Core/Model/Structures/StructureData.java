@@ -8,6 +8,7 @@ import curtin.edu.citysim.R;
 
 public class StructureData implements Serializable
 {
+    // Available structures for the game
     private final List<Residential> residential = Arrays.asList(
         new Residential(R.drawable.ic_building1),
         new Residential(R.drawable.ic_building2),

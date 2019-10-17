@@ -6,8 +6,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * Utility class for converting objects to bytes and vice versa
+ */
 public class Tools
 {
+    /**
+     * Converts an object to a byte array
+     *
+     * @param o Input object that implements serializable
+     * @return byte array of the object
+     * @throws IOException
+     */
     public static byte[] convertObjToBytes(Object o) throws IOException
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -16,6 +26,14 @@ public class Tools
         return out.toByteArray();
     }
 
+    /**
+     * Converts a byte array to an object
+     *
+     * @param d Input byte array of the object
+     * @return Converted object
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public static Object convertBytesToObj(byte[] d) throws IOException,
                                                             ClassNotFoundException
     {

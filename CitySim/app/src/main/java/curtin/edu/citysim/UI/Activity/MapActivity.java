@@ -24,11 +24,13 @@ public class MapActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        // Fetch data from activity
         Intent intent = getIntent();
 
         game = (GameData)intent.getSerializableExtra(MainActivity.GAME);
         StructureData structures = (StructureData)intent.getSerializableExtra(MainActivity.STRUCT);
 
+        // Setup fragments
         FragmentManager fm = getSupportFragmentManager();
 
         MapFragment mapFrag = (MapFragment)fm.findFragmentById(R.id.map);
@@ -37,11 +39,12 @@ public class MapActivity extends AppCompatActivity
         SelectorFragment roadFrag = (SelectorFragment)fm.findFragmentById(R.id.selector_road);
         StatusFragment statusFrag = (StatusFragment)fm.findFragmentById(R.id.status);
 
+        // Check if fragments are not already created
         mapFrag = mapFrag != null ? mapFrag : new MapFragment(game);
         resFrag = resFrag != null ? resFrag : new SelectorFragment(structures.getAllResidentials(), "Residential", game);
         comFrag = comFrag != null ? comFrag : new SelectorFragment(structures.getAllCommercials(), "Commercial", game);
         roadFrag = roadFrag != null ? roadFrag : new SelectorFragment(structures.getAllRoads(), "Road", game);
-        statusFrag = statusFrag != null ? statusFrag : new StatusFragment(game, mapFrag);
+        statusFrag = statusFrag != null ? statusFrag : new StatusFragment(game);
 
         fm.beginTransaction().add(R.id.map, mapFrag).commit();
         fm.beginTransaction().add(R.id.selector_residential, resFrag).commit();
@@ -53,6 +56,7 @@ public class MapActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
+        // Return data back to calling activity
         Intent intent = new Intent();
         intent.putExtra(MainActivity.GAME, game);
         setResult(RESULT_OK, intent);

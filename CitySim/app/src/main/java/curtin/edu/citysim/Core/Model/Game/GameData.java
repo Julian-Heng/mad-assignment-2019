@@ -11,12 +11,17 @@ import android.content.ContentValues;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+ * A GameData class keeps track of the game, including game mechanics and game state
+ */
 public class GameData implements Serializable
 {
+    // Current action for selected struct
     public static final int DEFAULT = 0;
     public static final int DETAILS = 1;
     public static final int DEMOLISH = 2;
 
+    // Unique ID for storing into the database
     private String UUID;
 
     private Settings settings = null;
@@ -33,12 +38,18 @@ public class GameData implements Serializable
 
     public GameData() {}
 
+    /**
+     * Constructor with settings
+     *
+     * @param settings Settings object to setup the GameData object
+     * @throws GameDataException
+     */
     public GameData(Settings settings) throws GameDataException
     {
+        // Cannot proceed unless settings is not null
         if (settings == null)
             throw new GameDataException("Settings is not set");
 
-        ContentValues cv = new ContentValues();
         Random rng = new Random();
 
         UUID = java.util.UUID.randomUUID().toString();
@@ -59,11 +70,13 @@ public class GameData implements Serializable
         this.settings = settings;
         money = settings.getIntSetting("initialMoney", 1000);
 
+        // Reflect changes in settings to game state
         if (map != null)
         {
             int width = settings.getIntSetting("mapWidth", 50);
             int height = settings.getIntSetting("mapHeight", 100);
 
+            // If map dimensions change, recreate map
             if (width != map.getWidth() || height != map.getHeight())
                 map = new MapData(width, height);
         }
@@ -92,6 +105,12 @@ public class GameData implements Serializable
     public Structure getSelectedStruct() { return selectedStruct; }
     public int getMode() { return mode; }
 
+    /**
+     * Build selected struct onto coordinates
+     *
+     * @param i row index
+     * @param j column index
+     */
     public void build(int i, int j)
     {
         if (selectedStruct instanceof Residential)
@@ -102,6 +121,13 @@ public class GameData implements Serializable
             build((Road)selectedStruct, i, j);
     }
 
+    /**
+     * Build residential to coordinate
+     *
+     * @param newRes new residential struct
+     * @param i row index
+     * @param j column index
+     */
     public void build(Residential newRes, int i, int j)
     {
         int cost = settings.getIntSetting("houseBuildingCost", 100);
@@ -112,6 +138,13 @@ public class GameData implements Serializable
         }
     }
 
+    /**
+     * Build residential to coordinate
+     *
+     * @param newComm new commercial struct
+     * @param i row index
+     * @param j column index
+     */
     public void build(Commercial newComm, int i, int j)
     {
         int cost = settings.getIntSetting("commBuildingCost", 500);
@@ -122,6 +155,13 @@ public class GameData implements Serializable
         }
     }
 
+    /**
+     * Build residential to coordinate
+     *
+     * @param newRoad new road struct
+     * @param i row index
+     * @param j column index
+     */
     public void build(Road newRoad, int i, int j)
     {
         int cost = settings.getIntSetting("roadBuildingCost", 20);
@@ -132,6 +172,9 @@ public class GameData implements Serializable
         }
     }
 
+    /**
+     * Move the game forwards one time unit
+     */
     public void step()
     {
         if (! isGameOver())
@@ -151,6 +194,10 @@ public class GameData implements Serializable
         }
     }
 
+    /**
+     * Check game over condition
+     * @return true or false
+     */
     public boolean isGameOver() { return money < 0; }
 
     public String toString()

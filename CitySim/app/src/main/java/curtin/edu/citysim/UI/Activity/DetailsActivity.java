@@ -47,6 +47,8 @@ public class DetailsActivity extends AppCompatActivity
         setContentView(R.layout.activity_details);
 
         String structType;
+
+        // Fetch data from other activities
         Intent intent = getIntent();
 
         col = intent.getIntExtra(MapFragment.COLUMN_POSITION, -1);
@@ -58,6 +60,7 @@ public class DetailsActivity extends AppCompatActivity
                      struct instanceof Commercial ? "Commercial" :
                      struct instanceof Road ? "Road" : "Unknown";
 
+        // Find view
         txtRow = (TextView)findViewById(R.id.txtRow);
         txtColumn = (TextView)findViewById(R.id.txtColumn);
         txtStructType = (TextView)findViewById(R.id.txtStructType);
@@ -65,12 +68,14 @@ public class DetailsActivity extends AppCompatActivity
         txtEditName = (EditText)findViewById(R.id.txtEditName);
         imgThumb = (ImageView)findViewById(R.id.imgThumb);
 
+        // Set views
         txtRow.setText("Row position: " + Integer.toString(row));
         txtColumn.setText("Column position: " + Integer.toString(col));
         txtStructType.setText("Structure type: " + structType);
         txtLabelName.setText("Structure name:");
         txtEditName.setText(element.getOwnerName().isEmpty() ? structType : element.getOwnerName());
 
+        // Call camera
         imgThumb.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -80,6 +85,7 @@ public class DetailsActivity extends AppCompatActivity
             }
         });
 
+        // Display image if it has an image
         if (element.getImg() != null)
             imgThumb.setImageBitmap(element.getImg().getImg());
     }
@@ -88,6 +94,8 @@ public class DetailsActivity extends AppCompatActivity
     public void onBackPressed()
     {
         Log.d("DETAILS", "Pressed back");
+
+        // Update the owner name
         element.setOwnerName(txtEditName.getText().toString());
 
         Intent intent = new Intent();
@@ -109,6 +117,7 @@ public class DetailsActivity extends AppCompatActivity
 
         if (requestCode == REQUEST_THUMBNAIL)
         {
+            // Set image to element
             Bitmap img = (Bitmap)data.getExtras().get("data");
             imgThumb.setImageBitmap(img);
             element.setImg(new SerialBitmap(img));

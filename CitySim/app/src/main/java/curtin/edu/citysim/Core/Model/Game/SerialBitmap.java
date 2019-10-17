@@ -5,8 +5,13 @@ import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ * SerialBitmap class to encapsulate a Bitmap object and make it serializable
+ */
 public class SerialBitmap implements Serializable
 {
     private Bitmap img;
@@ -15,9 +20,16 @@ public class SerialBitmap implements Serializable
     public void setImg(Bitmap img) { this.img = img; }
     public Bitmap getImg() { return img; }
 
-    // From https://stackoverflow.com/a/6003277
-    // Accessed on 9/10/19
-    private void writeObject(java.io.ObjectOutputStream out) throws IOException
+    /**
+     * Standalone method for writing bitmap object
+     *
+     * From https://stackoverflow.com/a/6003277
+     * Accessed on 9/10/19
+     *
+     * @param out output stream
+     * @throws IOException
+     */
+    private void writeObject(ObjectOutputStream out) throws IOException
     {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.PNG, 0, bs);
@@ -25,8 +37,18 @@ public class SerialBitmap implements Serializable
         out.write(bytes, 0, bytes.length);
     }
 
-    private void readObject(java.io.ObjectInputStream in) throws IOException,
-                                                                 ClassNotFoundException
+    /**
+     * Standalone method for reading bitmap object
+     *
+     * From https://stackoverflow.com/a/6003277
+     * Accessed on 9/10/19
+     *
+     * @param in input stream
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void readObject(ObjectInputStream in) throws IOException,
+                                                         ClassNotFoundException
     {
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         int b;

@@ -16,9 +16,11 @@ import curtin.edu.citysim.Core.Model.Structures.StructureData;
 
 public class MainActivity extends AppCompatActivity
 {
+    // Identifiers for intents
     public static final String GAME = "game";
     public static final String STRUCT = "structures";
 
+    // Request code
     private static final int REQUEST_SETTINGS = 1;
     private static final int REQUEST_MAP = 2;
 
@@ -36,9 +38,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Find views
         btnMap = (Button)findViewById(R.id.btnMap);
         btnSettings = (Button)findViewById(R.id.btnSettings);
 
+        // If game is null, load from database
+        // Normally called on app startup
         if (game == null)
         {
             saveManager = new GameDataSaveManager(this);
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity
 
         structures = new StructureData();
 
+        // Call Map activity
         btnMap.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Call Settings activity
         btnSettings.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Check if game is over, change behavior of buttons
         checkGameOver();
     }
 
@@ -81,13 +89,18 @@ public class MainActivity extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // Don't take action if result is not ok
         if (resultCode != RESULT_OK)
             return;
 
+        // Save game every time we exit from an activity
         saveManager.save((game = (GameData)data.getSerializableExtra(GAME)));
         checkGameOver();
     }
 
+    /**
+     * Change button behavior if game is over
+     */
     private void checkGameOver()
     {
         if (game.isGameOver())
