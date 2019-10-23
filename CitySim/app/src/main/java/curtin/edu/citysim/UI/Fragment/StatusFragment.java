@@ -106,7 +106,7 @@ public class StatusFragment extends Fragment
         txts.get("txtMoney").setText("Money: $" + game.getMoney());
         txts.get("txtSalary").setText("Salary: $" + game.getSalary());
         txts.get("txtPopulation").setText("Population: " + game.getPopulation());
-        txts.get("txtEmployment").setText("Employment rate:\n" + (game.getEmploymentRate() * 100) + "%");
+        txts.get("txtEmployment").setText(String.format("Employment rate:\n%.3f%%", game.getEmploymentRate() * 100));
         btnDemolish.setText(game.getMode() == GameData.DEMOLISH ? "Quit" : "Demolish");
         btnDetails.setText(game.getMode() == GameData.DETAILS ? "Quit" : "Details");
     }

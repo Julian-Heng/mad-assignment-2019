@@ -186,7 +186,7 @@ public class GameData implements Serializable
             int serviceCost = settings.getIntSetting("serviceCost");
 
             population = familySize * map.getNumResidential();
-            employmentRate = Math.min(1.0, map.getNumCommercial() * shopSize / (population > 0 ? population : 1));
+            employmentRate = population > 0 ? Math.min(1.0, (double)(map.getNumCommercial() * shopSize) / population) : 0;
 
             salary = (int) (population * (employmentRate * individualSalary * taxRate - serviceCost));
             money += salary;
