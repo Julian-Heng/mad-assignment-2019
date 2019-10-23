@@ -18,6 +18,7 @@ import curtin.edu.citysim.Core.Model.Game.Settings;
 
 /**
  * Loads and saves a GameData object to a database
+ * Author: Julian Heng (19473701)
  */
 public class GameDataSaveManager
 {

@@ -2,6 +2,7 @@ package curtin.edu.citysim.Core.Model.Game;
 
 /**
  * Stores schema information of the GameData object
+ * Author: Julian Heng (19473701)
  */
 public class GameDataSchema
 {

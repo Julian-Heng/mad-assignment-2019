@@ -28,6 +28,7 @@ import curtin.edu.citysim.UI.Activity.DetailsActivity;
 
 /**
  * MapFragment class containing the recycler view representing the map
+ * Author: Julian Heng (19473701)
  */
 public class MapFragment extends Fragment
 {

@@ -2,6 +2,7 @@ package curtin.edu.citysim.Core.Exception;
 
 /**
  * Exception class for GameData
+ * Author: Julian Heng (19473701)
  */
 public class GameDataException extends Exception
 {

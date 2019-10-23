@@ -13,6 +13,7 @@ import java.util.Random;
 
 /**
  * A GameData class keeps track of the game, including game mechanics and game state
+ * Author: Julian Heng (19473701)
  */
 public class GameData implements Serializable
 {

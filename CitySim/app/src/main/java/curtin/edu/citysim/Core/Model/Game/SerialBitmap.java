@@ -11,6 +11,7 @@ import java.io.Serializable;
 
 /**
  * SerialBitmap class to encapsulate a Bitmap object and make it serializable
+ * Author: Julian Heng (19473701)
  */
 public class SerialBitmap implements Serializable
 {

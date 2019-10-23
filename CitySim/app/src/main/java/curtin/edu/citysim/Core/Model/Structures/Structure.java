@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Structure class to store the drawable image id
+ * Author: Julian Heng (19473701)
  */
 public abstract class Structure implements Serializable
 {

@@ -15,6 +15,10 @@ import curtin.edu.citysim.Core.Model.Game.Settings;
 import curtin.edu.citysim.MainActivity;
 import curtin.edu.citysim.R;
 
+/**
+ * The settings activity where the player can change the game settings
+ * Author: Julian Heng (19473701)
+ */
 public class SettingsActivity extends AppCompatActivity
 {
     private static final String LOG_TAG = "SETTINGSACTIVITY";

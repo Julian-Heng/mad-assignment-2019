@@ -11,6 +11,7 @@ import curtin.edu.citysim.R;
 
 /**
  * MapData class to represent the game map/grid
+ * Author: Julian Heng (19473701)
  */
 public class MapData implements Serializable
 {

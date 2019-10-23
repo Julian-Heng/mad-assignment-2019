@@ -14,6 +14,10 @@ import curtin.edu.citysim.UI.Fragment.MapFragment;
 import curtin.edu.citysim.UI.Fragment.SelectorFragment;
 import curtin.edu.citysim.UI.Fragment.StatusFragment;
 
+/**
+ * The map activity where most of the game resides
+ * Author: Julian Heng (19473701)
+ */
 public class MapActivity extends AppCompatActivity
 {
     private GameData game;

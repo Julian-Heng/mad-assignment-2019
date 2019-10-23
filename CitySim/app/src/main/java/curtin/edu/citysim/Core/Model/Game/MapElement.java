@@ -6,6 +6,7 @@ import curtin.edu.citysim.Core.Model.Structures.Structure;
 
 /**
  * MapElement class to represent each grid element
+ * Author: Julian Heng (19473701)
  */
 public class MapElement implements Serializable
 {

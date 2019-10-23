@@ -21,6 +21,10 @@ import curtin.edu.citysim.Core.Model.Game.GameData;
 import curtin.edu.citysim.Core.Model.Structures.Structure;
 import curtin.edu.citysim.R;
 
+/**
+ * Selector fragment for listing available structs to build in the map
+ * Author: Julian Heng (19473701)
+ */
 public class SelectorFragment extends Fragment
 {
     private List<? extends Structure> structures;

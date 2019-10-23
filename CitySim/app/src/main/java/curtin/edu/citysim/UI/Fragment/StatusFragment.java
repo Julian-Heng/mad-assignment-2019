@@ -21,6 +21,10 @@ import java.util.TimerTask;
 import curtin.edu.citysim.Core.Model.Game.GameData;
 import curtin.edu.citysim.R;
 
+/**
+ * Status fragment to display all the statistics for the game
+ * Author: Julian Heng (19473701)
+ */
 public class StatusFragment extends Fragment
 {
     private GameData game;

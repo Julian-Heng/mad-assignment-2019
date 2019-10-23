@@ -6,6 +6,10 @@ import java.util.List;
 
 import curtin.edu.citysim.R;
 
+/**
+ * Class to store all available structures in the game
+ * Author: Julian Heng (19473701)
+ */
 public class StructureData implements Serializable
 {
     // Available structures for the game

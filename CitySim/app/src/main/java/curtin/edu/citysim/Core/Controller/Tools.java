@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 
 /**
  * Utility class for converting objects to bytes and vice versa
+ * Author: Julian Heng (19473701)
  */
 public class Tools
 {

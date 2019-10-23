@@ -23,6 +23,11 @@ import curtin.edu.citysim.Core.Model.Structures.Structure;
 import curtin.edu.citysim.R;
 import curtin.edu.citysim.UI.Fragment.MapFragment;
 
+/**
+ * The details activity which is called when the
+ * player wants to see the details of a specific struct
+ * Author: Julian Heng (19473701)
+ */
 public class DetailsActivity extends AppCompatActivity
 {
     private static final int REQUEST_THUMBNAIL = 1;

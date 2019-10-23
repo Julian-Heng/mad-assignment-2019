@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * Settings class to store settings for a GameData object
+ * Author: Julian Heng (19473701)
  */
 public class Settings implements Serializable
 {
